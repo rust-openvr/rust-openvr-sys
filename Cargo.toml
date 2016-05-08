@@ -8,6 +8,7 @@ authors = [
 ]
 license = "MIT"
 description = "Raw unsafe system binding for openvr"
+repository = "https://github.com/rust-openvr/rust-openvr-sys"
 
 build = "build.rs"
 
