@@ -1,0 +1,16 @@
+[package]
+name = "openvr_sys"
+version = "0.1.0"
+authors = [
+    "Colin Sherratt",
+    "Erick Tryzelaar",
+    "Rene Eichhorn"
+]
+license = "MIT"
+description = "Raw unsafe system binding for openvr"
+
+build = "build.rs"
+
+[lib]
+name = "openvr_sys"
+path = "lib.rs"
