@@ -1,5 +1,3 @@
-
-
 #[cfg(target_os="macos")]
 fn main() {
     println!("cargo:rustc-link-search={}/openvr/lib/osx32", env!("CARGO_MANIFEST_DIR"));
