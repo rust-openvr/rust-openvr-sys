@@ -2941,3 +2941,18 @@ pub struct VR_IVRScreenshots_FnTable {
 impl ::std::default::Default for VR_IVRScreenshots_FnTable {
     fn default() -> Self { unsafe { ::std::mem::zeroed() } }
 }
+
+extern "C" {
+    pub fn VR_InitInternal(peError: *mut EVRInitError,
+        eType: EVRApplicationType) -> intptr_t;
+    pub fn VR_ShutdownInternal();
+    pub fn VR_IsHmdPresent() -> u8;
+    pub fn VR_GetGenericInterface(pchInterfaceVersion:
+            *const ::std::os::raw::c_char,
+        peError: *mut EVRInitError) -> intptr_t;
+    pub fn VR_IsRuntimeInstalled() -> u8;
+    pub fn VR_GetVRInitErrorAsSymbol(error: EVRInitError)
+        -> *const ::std::os::raw::c_char;
+    pub fn VR_GetVRInitErrorAsEnglishDescription(error: EVRInitError)
+        -> *const ::std::os::raw::c_char;
+}
