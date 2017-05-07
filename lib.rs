@@ -505,827 +505,1696 @@ pub const IVRScreenshots_Version: &'static [u8; 19usize] =
     b"IVRScreenshots_001\x00";
 pub const IVRResources_Version: &'static [u8; 17usize] =
     b"IVRResources_001\x00";
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVREye { EVREye_Eye_Left = 0, EVREye_Eye_Right = 1, }
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum ETextureType {
-    ETextureType_TextureType_DirectX = 0,
-    ETextureType_TextureType_OpenGL = 1,
-    ETextureType_TextureType_Vulkan = 2,
-    ETextureType_TextureType_IOSurface = 3,
-    ETextureType_TextureType_DirectX12 = 4,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EColorSpace {
-    EColorSpace_ColorSpace_Auto = 0,
-    EColorSpace_ColorSpace_Gamma = 1,
-    EColorSpace_ColorSpace_Linear = 2,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum ETrackingResult {
-    ETrackingResult_TrackingResult_Uninitialized = 1,
-    ETrackingResult_TrackingResult_Calibrating_InProgress = 100,
-    ETrackingResult_TrackingResult_Calibrating_OutOfRange = 101,
-    ETrackingResult_TrackingResult_Running_OK = 200,
-    ETrackingResult_TrackingResult_Running_OutOfRange = 201,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum ETrackedDeviceClass {
-    ETrackedDeviceClass_TrackedDeviceClass_Invalid = 0,
-    ETrackedDeviceClass_TrackedDeviceClass_HMD = 1,
-    ETrackedDeviceClass_TrackedDeviceClass_Controller = 2,
-    ETrackedDeviceClass_TrackedDeviceClass_GenericTracker = 3,
-    ETrackedDeviceClass_TrackedDeviceClass_TrackingReference = 4,
-    ETrackedDeviceClass_TrackedDeviceClass_DisplayRedirect = 5,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum ETrackedControllerRole {
-    ETrackedControllerRole_TrackedControllerRole_Invalid = 0,
-    ETrackedControllerRole_TrackedControllerRole_LeftHand = 1,
-    ETrackedControllerRole_TrackedControllerRole_RightHand = 2,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum ETrackingUniverseOrigin {
-    ETrackingUniverseOrigin_TrackingUniverseSeated = 0,
-    ETrackingUniverseOrigin_TrackingUniverseStanding = 1,
-    ETrackingUniverseOrigin_TrackingUniverseRawAndUncalibrated = 2,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum ETrackedDeviceProperty {
-    ETrackedDeviceProperty_Prop_Invalid = 0,
-    ETrackedDeviceProperty_Prop_TrackingSystemName_String = 1000,
-    ETrackedDeviceProperty_Prop_ModelNumber_String = 1001,
-    ETrackedDeviceProperty_Prop_SerialNumber_String = 1002,
-    ETrackedDeviceProperty_Prop_RenderModelName_String = 1003,
-    ETrackedDeviceProperty_Prop_WillDriftInYaw_Bool = 1004,
-    ETrackedDeviceProperty_Prop_ManufacturerName_String = 1005,
-    ETrackedDeviceProperty_Prop_TrackingFirmwareVersion_String = 1006,
-    ETrackedDeviceProperty_Prop_HardwareRevision_String = 1007,
-    ETrackedDeviceProperty_Prop_AllWirelessDongleDescriptions_String = 1008,
-    ETrackedDeviceProperty_Prop_ConnectedWirelessDongle_String = 1009,
-    ETrackedDeviceProperty_Prop_DeviceIsWireless_Bool = 1010,
-    ETrackedDeviceProperty_Prop_DeviceIsCharging_Bool = 1011,
-    ETrackedDeviceProperty_Prop_DeviceBatteryPercentage_Float = 1012,
-    ETrackedDeviceProperty_Prop_StatusDisplayTransform_Matrix34 = 1013,
-    ETrackedDeviceProperty_Prop_Firmware_UpdateAvailable_Bool = 1014,
-    ETrackedDeviceProperty_Prop_Firmware_ManualUpdate_Bool = 1015,
-    ETrackedDeviceProperty_Prop_Firmware_ManualUpdateURL_String = 1016,
-    ETrackedDeviceProperty_Prop_HardwareRevision_Uint64 = 1017,
-    ETrackedDeviceProperty_Prop_FirmwareVersion_Uint64 = 1018,
-    ETrackedDeviceProperty_Prop_FPGAVersion_Uint64 = 1019,
-    ETrackedDeviceProperty_Prop_VRCVersion_Uint64 = 1020,
-    ETrackedDeviceProperty_Prop_RadioVersion_Uint64 = 1021,
-    ETrackedDeviceProperty_Prop_DongleVersion_Uint64 = 1022,
-    ETrackedDeviceProperty_Prop_BlockServerShutdown_Bool = 1023,
-    ETrackedDeviceProperty_Prop_CanUnifyCoordinateSystemWithHmd_Bool = 1024,
-    ETrackedDeviceProperty_Prop_ContainsProximitySensor_Bool = 1025,
-    ETrackedDeviceProperty_Prop_DeviceProvidesBatteryStatus_Bool = 1026,
-    ETrackedDeviceProperty_Prop_DeviceCanPowerOff_Bool = 1027,
-    ETrackedDeviceProperty_Prop_Firmware_ProgrammingTarget_String = 1028,
-    ETrackedDeviceProperty_Prop_DeviceClass_Int32 = 1029,
-    ETrackedDeviceProperty_Prop_HasCamera_Bool = 1030,
-    ETrackedDeviceProperty_Prop_DriverVersion_String = 1031,
-    ETrackedDeviceProperty_Prop_Firmware_ForceUpdateRequired_Bool = 1032,
-    ETrackedDeviceProperty_Prop_ViveSystemButtonFixRequired_Bool = 1033,
-    ETrackedDeviceProperty_Prop_ParentDriver_Uint64 = 1034,
-    ETrackedDeviceProperty_Prop_ResourceRoot_String = 1035,
-    ETrackedDeviceProperty_Prop_ReportsTimeSinceVSync_Bool = 2000,
-    ETrackedDeviceProperty_Prop_SecondsFromVsyncToPhotons_Float = 2001,
-    ETrackedDeviceProperty_Prop_DisplayFrequency_Float = 2002,
-    ETrackedDeviceProperty_Prop_UserIpdMeters_Float = 2003,
-    ETrackedDeviceProperty_Prop_CurrentUniverseId_Uint64 = 2004,
-    ETrackedDeviceProperty_Prop_PreviousUniverseId_Uint64 = 2005,
-    ETrackedDeviceProperty_Prop_DisplayFirmwareVersion_Uint64 = 2006,
-    ETrackedDeviceProperty_Prop_IsOnDesktop_Bool = 2007,
-    ETrackedDeviceProperty_Prop_DisplayMCType_Int32 = 2008,
-    ETrackedDeviceProperty_Prop_DisplayMCOffset_Float = 2009,
-    ETrackedDeviceProperty_Prop_DisplayMCScale_Float = 2010,
-    ETrackedDeviceProperty_Prop_EdidVendorID_Int32 = 2011,
-    ETrackedDeviceProperty_Prop_DisplayMCImageLeft_String = 2012,
-    ETrackedDeviceProperty_Prop_DisplayMCImageRight_String = 2013,
-    ETrackedDeviceProperty_Prop_DisplayGCBlackClamp_Float = 2014,
-    ETrackedDeviceProperty_Prop_EdidProductID_Int32 = 2015,
-    ETrackedDeviceProperty_Prop_CameraToHeadTransform_Matrix34 = 2016,
-    ETrackedDeviceProperty_Prop_DisplayGCType_Int32 = 2017,
-    ETrackedDeviceProperty_Prop_DisplayGCOffset_Float = 2018,
-    ETrackedDeviceProperty_Prop_DisplayGCScale_Float = 2019,
-    ETrackedDeviceProperty_Prop_DisplayGCPrescale_Float = 2020,
-    ETrackedDeviceProperty_Prop_DisplayGCImage_String = 2021,
-    ETrackedDeviceProperty_Prop_LensCenterLeftU_Float = 2022,
-    ETrackedDeviceProperty_Prop_LensCenterLeftV_Float = 2023,
-    ETrackedDeviceProperty_Prop_LensCenterRightU_Float = 2024,
-    ETrackedDeviceProperty_Prop_LensCenterRightV_Float = 2025,
-    ETrackedDeviceProperty_Prop_UserHeadToEyeDepthMeters_Float = 2026,
-    ETrackedDeviceProperty_Prop_CameraFirmwareVersion_Uint64 = 2027,
-    ETrackedDeviceProperty_Prop_CameraFirmwareDescription_String = 2028,
-    ETrackedDeviceProperty_Prop_DisplayFPGAVersion_Uint64 = 2029,
-    ETrackedDeviceProperty_Prop_DisplayBootloaderVersion_Uint64 = 2030,
-    ETrackedDeviceProperty_Prop_DisplayHardwareVersion_Uint64 = 2031,
-    ETrackedDeviceProperty_Prop_AudioFirmwareVersion_Uint64 = 2032,
-    ETrackedDeviceProperty_Prop_CameraCompatibilityMode_Int32 = 2033,
-    ETrackedDeviceProperty_Prop_ScreenshotHorizontalFieldOfViewDegrees_Float =
-        2034,
-    ETrackedDeviceProperty_Prop_ScreenshotVerticalFieldOfViewDegrees_Float =
-        2035,
-    ETrackedDeviceProperty_Prop_DisplaySuppressed_Bool = 2036,
-    ETrackedDeviceProperty_Prop_DisplayAllowNightMode_Bool = 2037,
-    ETrackedDeviceProperty_Prop_DisplayMCImageWidth_Int32 = 2038,
-    ETrackedDeviceProperty_Prop_DisplayMCImageHeight_Int32 = 2039,
-    ETrackedDeviceProperty_Prop_DisplayMCImageNumChannels_Int32 = 2040,
-    ETrackedDeviceProperty_Prop_DisplayMCImageData_Binary = 2041,
-    ETrackedDeviceProperty_Prop_SecondsFromPhotonsToVblank_Float = 2042,
-    ETrackedDeviceProperty_Prop_AttachedDeviceId_String = 3000,
-    ETrackedDeviceProperty_Prop_SupportedButtons_Uint64 = 3001,
-    ETrackedDeviceProperty_Prop_Axis0Type_Int32 = 3002,
-    ETrackedDeviceProperty_Prop_Axis1Type_Int32 = 3003,
-    ETrackedDeviceProperty_Prop_Axis2Type_Int32 = 3004,
-    ETrackedDeviceProperty_Prop_Axis3Type_Int32 = 3005,
-    ETrackedDeviceProperty_Prop_Axis4Type_Int32 = 3006,
-    ETrackedDeviceProperty_Prop_ControllerRoleHint_Int32 = 3007,
-    ETrackedDeviceProperty_Prop_FieldOfViewLeftDegrees_Float = 4000,
-    ETrackedDeviceProperty_Prop_FieldOfViewRightDegrees_Float = 4001,
-    ETrackedDeviceProperty_Prop_FieldOfViewTopDegrees_Float = 4002,
-    ETrackedDeviceProperty_Prop_FieldOfViewBottomDegrees_Float = 4003,
-    ETrackedDeviceProperty_Prop_TrackingRangeMinimumMeters_Float = 4004,
-    ETrackedDeviceProperty_Prop_TrackingRangeMaximumMeters_Float = 4005,
-    ETrackedDeviceProperty_Prop_ModeLabel_String = 4006,
-    ETrackedDeviceProperty_Prop_IconPathName_String = 5000,
-    ETrackedDeviceProperty_Prop_NamedIconPathDeviceOff_String = 5001,
-    ETrackedDeviceProperty_Prop_NamedIconPathDeviceSearching_String = 5002,
-    ETrackedDeviceProperty_Prop_NamedIconPathDeviceSearchingAlert_String =
-        5003,
-    ETrackedDeviceProperty_Prop_NamedIconPathDeviceReady_String = 5004,
-    ETrackedDeviceProperty_Prop_NamedIconPathDeviceReadyAlert_String = 5005,
-    ETrackedDeviceProperty_Prop_NamedIconPathDeviceNotReady_String = 5006,
-    ETrackedDeviceProperty_Prop_NamedIconPathDeviceStandby_String = 5007,
-    ETrackedDeviceProperty_Prop_NamedIconPathDeviceAlertLow_String = 5008,
-    ETrackedDeviceProperty_Prop_DisplayHiddenArea_Binary_Start = 5100,
-    ETrackedDeviceProperty_Prop_DisplayHiddenArea_Binary_End = 5150,
-    ETrackedDeviceProperty_Prop_UserConfigPath_String = 6000,
-    ETrackedDeviceProperty_Prop_InstallPath_String = 6001,
-    ETrackedDeviceProperty_Prop_HasDisplayComponent_Bool = 6002,
-    ETrackedDeviceProperty_Prop_HasControllerComponent_Bool = 6003,
-    ETrackedDeviceProperty_Prop_HasCameraComponent_Bool = 6004,
-    ETrackedDeviceProperty_Prop_HasDriverDirectModeComponent_Bool = 6005,
-    ETrackedDeviceProperty_Prop_HasVirtualDisplayComponent_Bool = 6006,
-    ETrackedDeviceProperty_Prop_VendorSpecific_Reserved_Start = 10000,
-    ETrackedDeviceProperty_Prop_VendorSpecific_Reserved_End = 10999,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum ETrackedPropertyError {
-    ETrackedPropertyError_TrackedProp_Success = 0,
-    ETrackedPropertyError_TrackedProp_WrongDataType = 1,
-    ETrackedPropertyError_TrackedProp_WrongDeviceClass = 2,
-    ETrackedPropertyError_TrackedProp_BufferTooSmall = 3,
-    ETrackedPropertyError_TrackedProp_UnknownProperty = 4,
-    ETrackedPropertyError_TrackedProp_InvalidDevice = 5,
-    ETrackedPropertyError_TrackedProp_CouldNotContactServer = 6,
-    ETrackedPropertyError_TrackedProp_ValueNotProvidedByDevice = 7,
-    ETrackedPropertyError_TrackedProp_StringExceedsMaximumLength = 8,
-    ETrackedPropertyError_TrackedProp_NotYetAvailable = 9,
-    ETrackedPropertyError_TrackedProp_PermissionDenied = 10,
-    ETrackedPropertyError_TrackedProp_InvalidOperation = 11,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVRSubmitFlags {
-    EVRSubmitFlags_Submit_Default = 0,
-    EVRSubmitFlags_Submit_LensDistortionAlreadyApplied = 1,
-    EVRSubmitFlags_Submit_GlRenderBuffer = 2,
-    EVRSubmitFlags_Submit_Reserved = 4,
-}
-#[repr(i32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVRState {
-    EVRState_VRState_Undefined = -1,
-    EVRState_VRState_Off = 0,
-    EVRState_VRState_Searching = 1,
-    EVRState_VRState_Searching_Alert = 2,
-    EVRState_VRState_Ready = 3,
-    EVRState_VRState_Ready_Alert = 4,
-    EVRState_VRState_NotReady = 5,
-    EVRState_VRState_Standby = 6,
-    EVRState_VRState_Ready_Alert_Low = 7,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVREventType {
-    EVREventType_VREvent_None = 0,
-    EVREventType_VREvent_TrackedDeviceActivated = 100,
-    EVREventType_VREvent_TrackedDeviceDeactivated = 101,
-    EVREventType_VREvent_TrackedDeviceUpdated = 102,
-    EVREventType_VREvent_TrackedDeviceUserInteractionStarted = 103,
-    EVREventType_VREvent_TrackedDeviceUserInteractionEnded = 104,
-    EVREventType_VREvent_IpdChanged = 105,
-    EVREventType_VREvent_EnterStandbyMode = 106,
-    EVREventType_VREvent_LeaveStandbyMode = 107,
-    EVREventType_VREvent_TrackedDeviceRoleChanged = 108,
-    EVREventType_VREvent_WatchdogWakeUpRequested = 109,
-    EVREventType_VREvent_LensDistortionChanged = 110,
-    EVREventType_VREvent_PropertyChanged = 111,
-    EVREventType_VREvent_ButtonPress = 200,
-    EVREventType_VREvent_ButtonUnpress = 201,
-    EVREventType_VREvent_ButtonTouch = 202,
-    EVREventType_VREvent_ButtonUntouch = 203,
-    EVREventType_VREvent_MouseMove = 300,
-    EVREventType_VREvent_MouseButtonDown = 301,
-    EVREventType_VREvent_MouseButtonUp = 302,
-    EVREventType_VREvent_FocusEnter = 303,
-    EVREventType_VREvent_FocusLeave = 304,
-    EVREventType_VREvent_Scroll = 305,
-    EVREventType_VREvent_TouchPadMove = 306,
-    EVREventType_VREvent_OverlayFocusChanged = 307,
-    EVREventType_VREvent_InputFocusCaptured = 400,
-    EVREventType_VREvent_InputFocusReleased = 401,
-    EVREventType_VREvent_SceneFocusLost = 402,
-    EVREventType_VREvent_SceneFocusGained = 403,
-    EVREventType_VREvent_SceneApplicationChanged = 404,
-    EVREventType_VREvent_SceneFocusChanged = 405,
-    EVREventType_VREvent_InputFocusChanged = 406,
-    EVREventType_VREvent_SceneApplicationSecondaryRenderingStarted = 407,
-    EVREventType_VREvent_HideRenderModels = 410,
-    EVREventType_VREvent_ShowRenderModels = 411,
-    EVREventType_VREvent_OverlayShown = 500,
-    EVREventType_VREvent_OverlayHidden = 501,
-    EVREventType_VREvent_DashboardActivated = 502,
-    EVREventType_VREvent_DashboardDeactivated = 503,
-    EVREventType_VREvent_DashboardThumbSelected = 504,
-    EVREventType_VREvent_DashboardRequested = 505,
-    EVREventType_VREvent_ResetDashboard = 506,
-    EVREventType_VREvent_RenderToast = 507,
-    EVREventType_VREvent_ImageLoaded = 508,
-    EVREventType_VREvent_ShowKeyboard = 509,
-    EVREventType_VREvent_HideKeyboard = 510,
-    EVREventType_VREvent_OverlayGamepadFocusGained = 511,
-    EVREventType_VREvent_OverlayGamepadFocusLost = 512,
-    EVREventType_VREvent_OverlaySharedTextureChanged = 513,
-    EVREventType_VREvent_DashboardGuideButtonDown = 514,
-    EVREventType_VREvent_DashboardGuideButtonUp = 515,
-    EVREventType_VREvent_ScreenshotTriggered = 516,
-    EVREventType_VREvent_ImageFailed = 517,
-    EVREventType_VREvent_DashboardOverlayCreated = 518,
-    EVREventType_VREvent_RequestScreenshot = 520,
-    EVREventType_VREvent_ScreenshotTaken = 521,
-    EVREventType_VREvent_ScreenshotFailed = 522,
-    EVREventType_VREvent_SubmitScreenshotToDashboard = 523,
-    EVREventType_VREvent_ScreenshotProgressToDashboard = 524,
-    EVREventType_VREvent_PrimaryDashboardDeviceChanged = 525,
-    EVREventType_VREvent_Notification_Shown = 600,
-    EVREventType_VREvent_Notification_Hidden = 601,
-    EVREventType_VREvent_Notification_BeginInteraction = 602,
-    EVREventType_VREvent_Notification_Destroyed = 603,
-    EVREventType_VREvent_Quit = 700,
-    EVREventType_VREvent_ProcessQuit = 701,
-    EVREventType_VREvent_QuitAborted_UserPrompt = 702,
-    EVREventType_VREvent_QuitAcknowledged = 703,
-    EVREventType_VREvent_DriverRequestedQuit = 704,
-    EVREventType_VREvent_ChaperoneDataHasChanged = 800,
-    EVREventType_VREvent_ChaperoneUniverseHasChanged = 801,
-    EVREventType_VREvent_ChaperoneTempDataHasChanged = 802,
-    EVREventType_VREvent_ChaperoneSettingsHaveChanged = 803,
-    EVREventType_VREvent_SeatedZeroPoseReset = 804,
-    EVREventType_VREvent_AudioSettingsHaveChanged = 820,
-    EVREventType_VREvent_BackgroundSettingHasChanged = 850,
-    EVREventType_VREvent_CameraSettingsHaveChanged = 851,
-    EVREventType_VREvent_ReprojectionSettingHasChanged = 852,
-    EVREventType_VREvent_ModelSkinSettingsHaveChanged = 853,
-    EVREventType_VREvent_EnvironmentSettingsHaveChanged = 854,
-    EVREventType_VREvent_PowerSettingsHaveChanged = 855,
-    EVREventType_VREvent_StatusUpdate = 900,
-    EVREventType_VREvent_MCImageUpdated = 1000,
-    EVREventType_VREvent_FirmwareUpdateStarted = 1100,
-    EVREventType_VREvent_FirmwareUpdateFinished = 1101,
-    EVREventType_VREvent_KeyboardClosed = 1200,
-    EVREventType_VREvent_KeyboardCharInput = 1201,
-    EVREventType_VREvent_KeyboardDone = 1202,
-    EVREventType_VREvent_ApplicationTransitionStarted = 1300,
-    EVREventType_VREvent_ApplicationTransitionAborted = 1301,
-    EVREventType_VREvent_ApplicationTransitionNewAppStarted = 1302,
-    EVREventType_VREvent_ApplicationListUpdated = 1303,
-    EVREventType_VREvent_ApplicationMimeTypeLoad = 1304,
-    EVREventType_VREvent_ApplicationTransitionNewAppLaunchComplete = 1305,
-    EVREventType_VREvent_ProcessConnected = 1306,
-    EVREventType_VREvent_ProcessDisconnected = 1307,
-    EVREventType_VREvent_Compositor_MirrorWindowShown = 1400,
-    EVREventType_VREvent_Compositor_MirrorWindowHidden = 1401,
-    EVREventType_VREvent_Compositor_ChaperoneBoundsShown = 1410,
-    EVREventType_VREvent_Compositor_ChaperoneBoundsHidden = 1411,
-    EVREventType_VREvent_TrackedCamera_StartVideoStream = 1500,
-    EVREventType_VREvent_TrackedCamera_StopVideoStream = 1501,
-    EVREventType_VREvent_TrackedCamera_PauseVideoStream = 1502,
-    EVREventType_VREvent_TrackedCamera_ResumeVideoStream = 1503,
-    EVREventType_VREvent_TrackedCamera_EditingSurface = 1550,
-    EVREventType_VREvent_PerformanceTest_EnableCapture = 1600,
-    EVREventType_VREvent_PerformanceTest_DisableCapture = 1601,
-    EVREventType_VREvent_PerformanceTest_FidelityLevel = 1602,
-    EVREventType_VREvent_MessageOverlay_Closed = 1650,
-    EVREventType_VREvent_VendorSpecific_Reserved_Start = 10000,
-    EVREventType_VREvent_VendorSpecific_Reserved_End = 19999,
-}
-#[repr(i32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EDeviceActivityLevel {
-    EDeviceActivityLevel_k_EDeviceActivityLevel_Unknown = -1,
-    EDeviceActivityLevel_k_EDeviceActivityLevel_Idle = 0,
-    EDeviceActivityLevel_k_EDeviceActivityLevel_UserInteraction = 1,
-    EDeviceActivityLevel_k_EDeviceActivityLevel_UserInteraction_Timeout = 2,
-    EDeviceActivityLevel_k_EDeviceActivityLevel_Standby = 3,
-}
+pub const EVREye_EVREye_Eye_Left: EVREye = 0;
+pub const EVREye_EVREye_Eye_Right: EVREye = 1;
+pub type EVREye = ::std::os::raw::c_uint;
+pub const ETextureType_ETextureType_TextureType_DirectX: ETextureType = 0;
+pub const ETextureType_ETextureType_TextureType_OpenGL: ETextureType = 1;
+pub const ETextureType_ETextureType_TextureType_Vulkan: ETextureType = 2;
+pub const ETextureType_ETextureType_TextureType_IOSurface: ETextureType = 3;
+pub const ETextureType_ETextureType_TextureType_DirectX12: ETextureType = 4;
+pub type ETextureType = ::std::os::raw::c_uint;
+pub const EColorSpace_EColorSpace_ColorSpace_Auto: EColorSpace = 0;
+pub const EColorSpace_EColorSpace_ColorSpace_Gamma: EColorSpace = 1;
+pub const EColorSpace_EColorSpace_ColorSpace_Linear: EColorSpace = 2;
+pub type EColorSpace = ::std::os::raw::c_uint;
+pub const ETrackingResult_ETrackingResult_TrackingResult_Uninitialized:
+          ETrackingResult =
+    1;
+pub const ETrackingResult_ETrackingResult_TrackingResult_Calibrating_InProgress:
+          ETrackingResult =
+    100;
+pub const ETrackingResult_ETrackingResult_TrackingResult_Calibrating_OutOfRange:
+          ETrackingResult =
+    101;
+pub const ETrackingResult_ETrackingResult_TrackingResult_Running_OK:
+          ETrackingResult =
+    200;
+pub const ETrackingResult_ETrackingResult_TrackingResult_Running_OutOfRange:
+          ETrackingResult =
+    201;
+pub type ETrackingResult = ::std::os::raw::c_uint;
+pub const ETrackedDeviceClass_ETrackedDeviceClass_TrackedDeviceClass_Invalid:
+          ETrackedDeviceClass =
+    0;
+pub const ETrackedDeviceClass_ETrackedDeviceClass_TrackedDeviceClass_HMD:
+          ETrackedDeviceClass =
+    1;
+pub const ETrackedDeviceClass_ETrackedDeviceClass_TrackedDeviceClass_Controller:
+          ETrackedDeviceClass =
+    2;
+pub const ETrackedDeviceClass_ETrackedDeviceClass_TrackedDeviceClass_GenericTracker:
+          ETrackedDeviceClass =
+    3;
+pub const ETrackedDeviceClass_ETrackedDeviceClass_TrackedDeviceClass_TrackingReference:
+          ETrackedDeviceClass =
+    4;
+pub const ETrackedDeviceClass_ETrackedDeviceClass_TrackedDeviceClass_DisplayRedirect:
+          ETrackedDeviceClass =
+    5;
+pub type ETrackedDeviceClass = ::std::os::raw::c_uint;
+pub const ETrackedControllerRole_ETrackedControllerRole_TrackedControllerRole_Invalid:
+          ETrackedControllerRole =
+    0;
+pub const ETrackedControllerRole_ETrackedControllerRole_TrackedControllerRole_LeftHand:
+          ETrackedControllerRole =
+    1;
+pub const ETrackedControllerRole_ETrackedControllerRole_TrackedControllerRole_RightHand:
+          ETrackedControllerRole =
+    2;
+pub type ETrackedControllerRole = ::std::os::raw::c_uint;
+pub const ETrackingUniverseOrigin_ETrackingUniverseOrigin_TrackingUniverseSeated:
+          ETrackingUniverseOrigin =
+    0;
+pub const ETrackingUniverseOrigin_ETrackingUniverseOrigin_TrackingUniverseStanding:
+          ETrackingUniverseOrigin =
+    1;
+pub const ETrackingUniverseOrigin_ETrackingUniverseOrigin_TrackingUniverseRawAndUncalibrated:
+          ETrackingUniverseOrigin =
+    2;
+pub type ETrackingUniverseOrigin = ::std::os::raw::c_uint;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_Invalid:
+          ETrackedDeviceProperty =
+    0;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_TrackingSystemName_String:
+          ETrackedDeviceProperty =
+    1000;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_ModelNumber_String:
+          ETrackedDeviceProperty =
+    1001;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_SerialNumber_String:
+          ETrackedDeviceProperty =
+    1002;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_RenderModelName_String:
+          ETrackedDeviceProperty =
+    1003;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_WillDriftInYaw_Bool:
+          ETrackedDeviceProperty =
+    1004;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_ManufacturerName_String:
+          ETrackedDeviceProperty =
+    1005;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_TrackingFirmwareVersion_String:
+          ETrackedDeviceProperty =
+    1006;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_HardwareRevision_String:
+          ETrackedDeviceProperty =
+    1007;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_AllWirelessDongleDescriptions_String:
+          ETrackedDeviceProperty =
+    1008;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_ConnectedWirelessDongle_String:
+          ETrackedDeviceProperty =
+    1009;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DeviceIsWireless_Bool:
+          ETrackedDeviceProperty =
+    1010;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DeviceIsCharging_Bool:
+          ETrackedDeviceProperty =
+    1011;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DeviceBatteryPercentage_Float:
+          ETrackedDeviceProperty =
+    1012;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_StatusDisplayTransform_Matrix34:
+          ETrackedDeviceProperty =
+    1013;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_Firmware_UpdateAvailable_Bool:
+          ETrackedDeviceProperty =
+    1014;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_Firmware_ManualUpdate_Bool:
+          ETrackedDeviceProperty =
+    1015;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_Firmware_ManualUpdateURL_String:
+          ETrackedDeviceProperty =
+    1016;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_HardwareRevision_Uint64:
+          ETrackedDeviceProperty =
+    1017;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_FirmwareVersion_Uint64:
+          ETrackedDeviceProperty =
+    1018;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_FPGAVersion_Uint64:
+          ETrackedDeviceProperty =
+    1019;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_VRCVersion_Uint64:
+          ETrackedDeviceProperty =
+    1020;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_RadioVersion_Uint64:
+          ETrackedDeviceProperty =
+    1021;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DongleVersion_Uint64:
+          ETrackedDeviceProperty =
+    1022;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_BlockServerShutdown_Bool:
+          ETrackedDeviceProperty =
+    1023;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_CanUnifyCoordinateSystemWithHmd_Bool:
+          ETrackedDeviceProperty =
+    1024;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_ContainsProximitySensor_Bool:
+          ETrackedDeviceProperty =
+    1025;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DeviceProvidesBatteryStatus_Bool:
+          ETrackedDeviceProperty =
+    1026;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DeviceCanPowerOff_Bool:
+          ETrackedDeviceProperty =
+    1027;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_Firmware_ProgrammingTarget_String:
+          ETrackedDeviceProperty =
+    1028;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DeviceClass_Int32:
+          ETrackedDeviceProperty =
+    1029;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_HasCamera_Bool:
+          ETrackedDeviceProperty =
+    1030;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DriverVersion_String:
+          ETrackedDeviceProperty =
+    1031;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_Firmware_ForceUpdateRequired_Bool:
+          ETrackedDeviceProperty =
+    1032;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_ViveSystemButtonFixRequired_Bool:
+          ETrackedDeviceProperty =
+    1033;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_ParentDriver_Uint64:
+          ETrackedDeviceProperty =
+    1034;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_ResourceRoot_String:
+          ETrackedDeviceProperty =
+    1035;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_ReportsTimeSinceVSync_Bool:
+          ETrackedDeviceProperty =
+    2000;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_SecondsFromVsyncToPhotons_Float:
+          ETrackedDeviceProperty =
+    2001;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayFrequency_Float:
+          ETrackedDeviceProperty =
+    2002;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_UserIpdMeters_Float:
+          ETrackedDeviceProperty =
+    2003;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_CurrentUniverseId_Uint64:
+          ETrackedDeviceProperty =
+    2004;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_PreviousUniverseId_Uint64:
+          ETrackedDeviceProperty =
+    2005;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayFirmwareVersion_Uint64:
+          ETrackedDeviceProperty =
+    2006;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_IsOnDesktop_Bool:
+          ETrackedDeviceProperty =
+    2007;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayMCType_Int32:
+          ETrackedDeviceProperty =
+    2008;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayMCOffset_Float:
+          ETrackedDeviceProperty =
+    2009;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayMCScale_Float:
+          ETrackedDeviceProperty =
+    2010;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_EdidVendorID_Int32:
+          ETrackedDeviceProperty =
+    2011;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayMCImageLeft_String:
+          ETrackedDeviceProperty =
+    2012;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayMCImageRight_String:
+          ETrackedDeviceProperty =
+    2013;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayGCBlackClamp_Float:
+          ETrackedDeviceProperty =
+    2014;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_EdidProductID_Int32:
+          ETrackedDeviceProperty =
+    2015;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_CameraToHeadTransform_Matrix34:
+          ETrackedDeviceProperty =
+    2016;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayGCType_Int32:
+          ETrackedDeviceProperty =
+    2017;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayGCOffset_Float:
+          ETrackedDeviceProperty =
+    2018;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayGCScale_Float:
+          ETrackedDeviceProperty =
+    2019;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayGCPrescale_Float:
+          ETrackedDeviceProperty =
+    2020;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayGCImage_String:
+          ETrackedDeviceProperty =
+    2021;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_LensCenterLeftU_Float:
+          ETrackedDeviceProperty =
+    2022;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_LensCenterLeftV_Float:
+          ETrackedDeviceProperty =
+    2023;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_LensCenterRightU_Float:
+          ETrackedDeviceProperty =
+    2024;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_LensCenterRightV_Float:
+          ETrackedDeviceProperty =
+    2025;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_UserHeadToEyeDepthMeters_Float:
+          ETrackedDeviceProperty =
+    2026;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_CameraFirmwareVersion_Uint64:
+          ETrackedDeviceProperty =
+    2027;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_CameraFirmwareDescription_String:
+          ETrackedDeviceProperty =
+    2028;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayFPGAVersion_Uint64:
+          ETrackedDeviceProperty =
+    2029;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayBootloaderVersion_Uint64:
+          ETrackedDeviceProperty =
+    2030;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayHardwareVersion_Uint64:
+          ETrackedDeviceProperty =
+    2031;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_AudioFirmwareVersion_Uint64:
+          ETrackedDeviceProperty =
+    2032;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_CameraCompatibilityMode_Int32:
+          ETrackedDeviceProperty =
+    2033;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_ScreenshotHorizontalFieldOfViewDegrees_Float:
+          ETrackedDeviceProperty =
+    2034;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_ScreenshotVerticalFieldOfViewDegrees_Float:
+          ETrackedDeviceProperty =
+    2035;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplaySuppressed_Bool:
+          ETrackedDeviceProperty =
+    2036;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayAllowNightMode_Bool:
+          ETrackedDeviceProperty =
+    2037;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayMCImageWidth_Int32:
+          ETrackedDeviceProperty =
+    2038;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayMCImageHeight_Int32:
+          ETrackedDeviceProperty =
+    2039;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayMCImageNumChannels_Int32:
+          ETrackedDeviceProperty =
+    2040;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayMCImageData_Binary:
+          ETrackedDeviceProperty =
+    2041;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_SecondsFromPhotonsToVblank_Float:
+          ETrackedDeviceProperty =
+    2042;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_AttachedDeviceId_String:
+          ETrackedDeviceProperty =
+    3000;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_SupportedButtons_Uint64:
+          ETrackedDeviceProperty =
+    3001;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_Axis0Type_Int32:
+          ETrackedDeviceProperty =
+    3002;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_Axis1Type_Int32:
+          ETrackedDeviceProperty =
+    3003;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_Axis2Type_Int32:
+          ETrackedDeviceProperty =
+    3004;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_Axis3Type_Int32:
+          ETrackedDeviceProperty =
+    3005;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_Axis4Type_Int32:
+          ETrackedDeviceProperty =
+    3006;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_ControllerRoleHint_Int32:
+          ETrackedDeviceProperty =
+    3007;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_FieldOfViewLeftDegrees_Float:
+          ETrackedDeviceProperty =
+    4000;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_FieldOfViewRightDegrees_Float:
+          ETrackedDeviceProperty =
+    4001;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_FieldOfViewTopDegrees_Float:
+          ETrackedDeviceProperty =
+    4002;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_FieldOfViewBottomDegrees_Float:
+          ETrackedDeviceProperty =
+    4003;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_TrackingRangeMinimumMeters_Float:
+          ETrackedDeviceProperty =
+    4004;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_TrackingRangeMaximumMeters_Float:
+          ETrackedDeviceProperty =
+    4005;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_ModeLabel_String:
+          ETrackedDeviceProperty =
+    4006;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_IconPathName_String:
+          ETrackedDeviceProperty =
+    5000;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_NamedIconPathDeviceOff_String:
+          ETrackedDeviceProperty =
+    5001;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_NamedIconPathDeviceSearching_String:
+          ETrackedDeviceProperty =
+    5002;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_NamedIconPathDeviceSearchingAlert_String:
+          ETrackedDeviceProperty =
+    5003;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_NamedIconPathDeviceReady_String:
+          ETrackedDeviceProperty =
+    5004;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_NamedIconPathDeviceReadyAlert_String:
+          ETrackedDeviceProperty =
+    5005;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_NamedIconPathDeviceNotReady_String:
+          ETrackedDeviceProperty =
+    5006;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_NamedIconPathDeviceStandby_String:
+          ETrackedDeviceProperty =
+    5007;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_NamedIconPathDeviceAlertLow_String:
+          ETrackedDeviceProperty =
+    5008;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayHiddenArea_Binary_Start:
+          ETrackedDeviceProperty =
+    5100;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayHiddenArea_Binary_End:
+          ETrackedDeviceProperty =
+    5150;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_UserConfigPath_String:
+          ETrackedDeviceProperty =
+    6000;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_InstallPath_String:
+          ETrackedDeviceProperty =
+    6001;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_HasDisplayComponent_Bool:
+          ETrackedDeviceProperty =
+    6002;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_HasControllerComponent_Bool:
+          ETrackedDeviceProperty =
+    6003;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_HasCameraComponent_Bool:
+          ETrackedDeviceProperty =
+    6004;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_HasDriverDirectModeComponent_Bool:
+          ETrackedDeviceProperty =
+    6005;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_HasVirtualDisplayComponent_Bool:
+          ETrackedDeviceProperty =
+    6006;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_VendorSpecific_Reserved_Start:
+          ETrackedDeviceProperty =
+    10000;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_VendorSpecific_Reserved_End:
+          ETrackedDeviceProperty =
+    10999;
+pub type ETrackedDeviceProperty = ::std::os::raw::c_uint;
+pub const ETrackedPropertyError_ETrackedPropertyError_TrackedProp_Success:
+          ETrackedPropertyError =
+    0;
+pub const ETrackedPropertyError_ETrackedPropertyError_TrackedProp_WrongDataType:
+          ETrackedPropertyError =
+    1;
+pub const ETrackedPropertyError_ETrackedPropertyError_TrackedProp_WrongDeviceClass:
+          ETrackedPropertyError =
+    2;
+pub const ETrackedPropertyError_ETrackedPropertyError_TrackedProp_BufferTooSmall:
+          ETrackedPropertyError =
+    3;
+pub const ETrackedPropertyError_ETrackedPropertyError_TrackedProp_UnknownProperty:
+          ETrackedPropertyError =
+    4;
+pub const ETrackedPropertyError_ETrackedPropertyError_TrackedProp_InvalidDevice:
+          ETrackedPropertyError =
+    5;
+pub const ETrackedPropertyError_ETrackedPropertyError_TrackedProp_CouldNotContactServer:
+          ETrackedPropertyError =
+    6;
+pub const ETrackedPropertyError_ETrackedPropertyError_TrackedProp_ValueNotProvidedByDevice:
+          ETrackedPropertyError =
+    7;
+pub const ETrackedPropertyError_ETrackedPropertyError_TrackedProp_StringExceedsMaximumLength:
+          ETrackedPropertyError =
+    8;
+pub const ETrackedPropertyError_ETrackedPropertyError_TrackedProp_NotYetAvailable:
+          ETrackedPropertyError =
+    9;
+pub const ETrackedPropertyError_ETrackedPropertyError_TrackedProp_PermissionDenied:
+          ETrackedPropertyError =
+    10;
+pub const ETrackedPropertyError_ETrackedPropertyError_TrackedProp_InvalidOperation:
+          ETrackedPropertyError =
+    11;
+pub type ETrackedPropertyError = ::std::os::raw::c_uint;
+pub const EVRSubmitFlags_EVRSubmitFlags_Submit_Default: EVRSubmitFlags = 0;
+pub const EVRSubmitFlags_EVRSubmitFlags_Submit_LensDistortionAlreadyApplied:
+          EVRSubmitFlags =
+    1;
+pub const EVRSubmitFlags_EVRSubmitFlags_Submit_GlRenderBuffer: EVRSubmitFlags
+          =
+    2;
+pub const EVRSubmitFlags_EVRSubmitFlags_Submit_Reserved: EVRSubmitFlags = 4;
+pub type EVRSubmitFlags = ::std::os::raw::c_uint;
+pub const EVRState_EVRState_VRState_Undefined: EVRState = -1;
+pub const EVRState_EVRState_VRState_Off: EVRState = 0;
+pub const EVRState_EVRState_VRState_Searching: EVRState = 1;
+pub const EVRState_EVRState_VRState_Searching_Alert: EVRState = 2;
+pub const EVRState_EVRState_VRState_Ready: EVRState = 3;
+pub const EVRState_EVRState_VRState_Ready_Alert: EVRState = 4;
+pub const EVRState_EVRState_VRState_NotReady: EVRState = 5;
+pub const EVRState_EVRState_VRState_Standby: EVRState = 6;
+pub const EVRState_EVRState_VRState_Ready_Alert_Low: EVRState = 7;
+pub type EVRState = ::std::os::raw::c_int;
+pub const EVREventType_EVREventType_VREvent_None: EVREventType = 0;
+pub const EVREventType_EVREventType_VREvent_TrackedDeviceActivated:
+          EVREventType =
+    100;
+pub const EVREventType_EVREventType_VREvent_TrackedDeviceDeactivated:
+          EVREventType =
+    101;
+pub const EVREventType_EVREventType_VREvent_TrackedDeviceUpdated: EVREventType
+          =
+    102;
+pub const EVREventType_EVREventType_VREvent_TrackedDeviceUserInteractionStarted:
+          EVREventType =
+    103;
+pub const EVREventType_EVREventType_VREvent_TrackedDeviceUserInteractionEnded:
+          EVREventType =
+    104;
+pub const EVREventType_EVREventType_VREvent_IpdChanged: EVREventType = 105;
+pub const EVREventType_EVREventType_VREvent_EnterStandbyMode: EVREventType =
+    106;
+pub const EVREventType_EVREventType_VREvent_LeaveStandbyMode: EVREventType =
+    107;
+pub const EVREventType_EVREventType_VREvent_TrackedDeviceRoleChanged:
+          EVREventType =
+    108;
+pub const EVREventType_EVREventType_VREvent_WatchdogWakeUpRequested:
+          EVREventType =
+    109;
+pub const EVREventType_EVREventType_VREvent_LensDistortionChanged:
+          EVREventType =
+    110;
+pub const EVREventType_EVREventType_VREvent_PropertyChanged: EVREventType =
+    111;
+pub const EVREventType_EVREventType_VREvent_ButtonPress: EVREventType = 200;
+pub const EVREventType_EVREventType_VREvent_ButtonUnpress: EVREventType = 201;
+pub const EVREventType_EVREventType_VREvent_ButtonTouch: EVREventType = 202;
+pub const EVREventType_EVREventType_VREvent_ButtonUntouch: EVREventType = 203;
+pub const EVREventType_EVREventType_VREvent_MouseMove: EVREventType = 300;
+pub const EVREventType_EVREventType_VREvent_MouseButtonDown: EVREventType =
+    301;
+pub const EVREventType_EVREventType_VREvent_MouseButtonUp: EVREventType = 302;
+pub const EVREventType_EVREventType_VREvent_FocusEnter: EVREventType = 303;
+pub const EVREventType_EVREventType_VREvent_FocusLeave: EVREventType = 304;
+pub const EVREventType_EVREventType_VREvent_Scroll: EVREventType = 305;
+pub const EVREventType_EVREventType_VREvent_TouchPadMove: EVREventType = 306;
+pub const EVREventType_EVREventType_VREvent_OverlayFocusChanged: EVREventType
+          =
+    307;
+pub const EVREventType_EVREventType_VREvent_InputFocusCaptured: EVREventType =
+    400;
+pub const EVREventType_EVREventType_VREvent_InputFocusReleased: EVREventType =
+    401;
+pub const EVREventType_EVREventType_VREvent_SceneFocusLost: EVREventType =
+    402;
+pub const EVREventType_EVREventType_VREvent_SceneFocusGained: EVREventType =
+    403;
+pub const EVREventType_EVREventType_VREvent_SceneApplicationChanged:
+          EVREventType =
+    404;
+pub const EVREventType_EVREventType_VREvent_SceneFocusChanged: EVREventType =
+    405;
+pub const EVREventType_EVREventType_VREvent_InputFocusChanged: EVREventType =
+    406;
+pub const EVREventType_EVREventType_VREvent_SceneApplicationSecondaryRenderingStarted:
+          EVREventType =
+    407;
+pub const EVREventType_EVREventType_VREvent_HideRenderModels: EVREventType =
+    410;
+pub const EVREventType_EVREventType_VREvent_ShowRenderModels: EVREventType =
+    411;
+pub const EVREventType_EVREventType_VREvent_OverlayShown: EVREventType = 500;
+pub const EVREventType_EVREventType_VREvent_OverlayHidden: EVREventType = 501;
+pub const EVREventType_EVREventType_VREvent_DashboardActivated: EVREventType =
+    502;
+pub const EVREventType_EVREventType_VREvent_DashboardDeactivated: EVREventType
+          =
+    503;
+pub const EVREventType_EVREventType_VREvent_DashboardThumbSelected:
+          EVREventType =
+    504;
+pub const EVREventType_EVREventType_VREvent_DashboardRequested: EVREventType =
+    505;
+pub const EVREventType_EVREventType_VREvent_ResetDashboard: EVREventType =
+    506;
+pub const EVREventType_EVREventType_VREvent_RenderToast: EVREventType = 507;
+pub const EVREventType_EVREventType_VREvent_ImageLoaded: EVREventType = 508;
+pub const EVREventType_EVREventType_VREvent_ShowKeyboard: EVREventType = 509;
+pub const EVREventType_EVREventType_VREvent_HideKeyboard: EVREventType = 510;
+pub const EVREventType_EVREventType_VREvent_OverlayGamepadFocusGained:
+          EVREventType =
+    511;
+pub const EVREventType_EVREventType_VREvent_OverlayGamepadFocusLost:
+          EVREventType =
+    512;
+pub const EVREventType_EVREventType_VREvent_OverlaySharedTextureChanged:
+          EVREventType =
+    513;
+pub const EVREventType_EVREventType_VREvent_DashboardGuideButtonDown:
+          EVREventType =
+    514;
+pub const EVREventType_EVREventType_VREvent_DashboardGuideButtonUp:
+          EVREventType =
+    515;
+pub const EVREventType_EVREventType_VREvent_ScreenshotTriggered: EVREventType
+          =
+    516;
+pub const EVREventType_EVREventType_VREvent_ImageFailed: EVREventType = 517;
+pub const EVREventType_EVREventType_VREvent_DashboardOverlayCreated:
+          EVREventType =
+    518;
+pub const EVREventType_EVREventType_VREvent_RequestScreenshot: EVREventType =
+    520;
+pub const EVREventType_EVREventType_VREvent_ScreenshotTaken: EVREventType =
+    521;
+pub const EVREventType_EVREventType_VREvent_ScreenshotFailed: EVREventType =
+    522;
+pub const EVREventType_EVREventType_VREvent_SubmitScreenshotToDashboard:
+          EVREventType =
+    523;
+pub const EVREventType_EVREventType_VREvent_ScreenshotProgressToDashboard:
+          EVREventType =
+    524;
+pub const EVREventType_EVREventType_VREvent_PrimaryDashboardDeviceChanged:
+          EVREventType =
+    525;
+pub const EVREventType_EVREventType_VREvent_Notification_Shown: EVREventType =
+    600;
+pub const EVREventType_EVREventType_VREvent_Notification_Hidden: EVREventType
+          =
+    601;
+pub const EVREventType_EVREventType_VREvent_Notification_BeginInteraction:
+          EVREventType =
+    602;
+pub const EVREventType_EVREventType_VREvent_Notification_Destroyed:
+          EVREventType =
+    603;
+pub const EVREventType_EVREventType_VREvent_Quit: EVREventType = 700;
+pub const EVREventType_EVREventType_VREvent_ProcessQuit: EVREventType = 701;
+pub const EVREventType_EVREventType_VREvent_QuitAborted_UserPrompt:
+          EVREventType =
+    702;
+pub const EVREventType_EVREventType_VREvent_QuitAcknowledged: EVREventType =
+    703;
+pub const EVREventType_EVREventType_VREvent_DriverRequestedQuit: EVREventType
+          =
+    704;
+pub const EVREventType_EVREventType_VREvent_ChaperoneDataHasChanged:
+          EVREventType =
+    800;
+pub const EVREventType_EVREventType_VREvent_ChaperoneUniverseHasChanged:
+          EVREventType =
+    801;
+pub const EVREventType_EVREventType_VREvent_ChaperoneTempDataHasChanged:
+          EVREventType =
+    802;
+pub const EVREventType_EVREventType_VREvent_ChaperoneSettingsHaveChanged:
+          EVREventType =
+    803;
+pub const EVREventType_EVREventType_VREvent_SeatedZeroPoseReset: EVREventType
+          =
+    804;
+pub const EVREventType_EVREventType_VREvent_AudioSettingsHaveChanged:
+          EVREventType =
+    820;
+pub const EVREventType_EVREventType_VREvent_BackgroundSettingHasChanged:
+          EVREventType =
+    850;
+pub const EVREventType_EVREventType_VREvent_CameraSettingsHaveChanged:
+          EVREventType =
+    851;
+pub const EVREventType_EVREventType_VREvent_ReprojectionSettingHasChanged:
+          EVREventType =
+    852;
+pub const EVREventType_EVREventType_VREvent_ModelSkinSettingsHaveChanged:
+          EVREventType =
+    853;
+pub const EVREventType_EVREventType_VREvent_EnvironmentSettingsHaveChanged:
+          EVREventType =
+    854;
+pub const EVREventType_EVREventType_VREvent_PowerSettingsHaveChanged:
+          EVREventType =
+    855;
+pub const EVREventType_EVREventType_VREvent_StatusUpdate: EVREventType = 900;
+pub const EVREventType_EVREventType_VREvent_MCImageUpdated: EVREventType =
+    1000;
+pub const EVREventType_EVREventType_VREvent_FirmwareUpdateStarted:
+          EVREventType =
+    1100;
+pub const EVREventType_EVREventType_VREvent_FirmwareUpdateFinished:
+          EVREventType =
+    1101;
+pub const EVREventType_EVREventType_VREvent_KeyboardClosed: EVREventType =
+    1200;
+pub const EVREventType_EVREventType_VREvent_KeyboardCharInput: EVREventType =
+    1201;
+pub const EVREventType_EVREventType_VREvent_KeyboardDone: EVREventType = 1202;
+pub const EVREventType_EVREventType_VREvent_ApplicationTransitionStarted:
+          EVREventType =
+    1300;
+pub const EVREventType_EVREventType_VREvent_ApplicationTransitionAborted:
+          EVREventType =
+    1301;
+pub const EVREventType_EVREventType_VREvent_ApplicationTransitionNewAppStarted:
+          EVREventType =
+    1302;
+pub const EVREventType_EVREventType_VREvent_ApplicationListUpdated:
+          EVREventType =
+    1303;
+pub const EVREventType_EVREventType_VREvent_ApplicationMimeTypeLoad:
+          EVREventType =
+    1304;
+pub const EVREventType_EVREventType_VREvent_ApplicationTransitionNewAppLaunchComplete:
+          EVREventType =
+    1305;
+pub const EVREventType_EVREventType_VREvent_ProcessConnected: EVREventType =
+    1306;
+pub const EVREventType_EVREventType_VREvent_ProcessDisconnected: EVREventType
+          =
+    1307;
+pub const EVREventType_EVREventType_VREvent_Compositor_MirrorWindowShown:
+          EVREventType =
+    1400;
+pub const EVREventType_EVREventType_VREvent_Compositor_MirrorWindowHidden:
+          EVREventType =
+    1401;
+pub const EVREventType_EVREventType_VREvent_Compositor_ChaperoneBoundsShown:
+          EVREventType =
+    1410;
+pub const EVREventType_EVREventType_VREvent_Compositor_ChaperoneBoundsHidden:
+          EVREventType =
+    1411;
+pub const EVREventType_EVREventType_VREvent_TrackedCamera_StartVideoStream:
+          EVREventType =
+    1500;
+pub const EVREventType_EVREventType_VREvent_TrackedCamera_StopVideoStream:
+          EVREventType =
+    1501;
+pub const EVREventType_EVREventType_VREvent_TrackedCamera_PauseVideoStream:
+          EVREventType =
+    1502;
+pub const EVREventType_EVREventType_VREvent_TrackedCamera_ResumeVideoStream:
+          EVREventType =
+    1503;
+pub const EVREventType_EVREventType_VREvent_TrackedCamera_EditingSurface:
+          EVREventType =
+    1550;
+pub const EVREventType_EVREventType_VREvent_PerformanceTest_EnableCapture:
+          EVREventType =
+    1600;
+pub const EVREventType_EVREventType_VREvent_PerformanceTest_DisableCapture:
+          EVREventType =
+    1601;
+pub const EVREventType_EVREventType_VREvent_PerformanceTest_FidelityLevel:
+          EVREventType =
+    1602;
+pub const EVREventType_EVREventType_VREvent_MessageOverlay_Closed:
+          EVREventType =
+    1650;
+pub const EVREventType_EVREventType_VREvent_VendorSpecific_Reserved_Start:
+          EVREventType =
+    10000;
+pub const EVREventType_EVREventType_VREvent_VendorSpecific_Reserved_End:
+          EVREventType =
+    19999;
+pub type EVREventType = ::std::os::raw::c_uint;
+pub const EDeviceActivityLevel_EDeviceActivityLevel_k_EDeviceActivityLevel_Unknown:
+          EDeviceActivityLevel =
+    -1;
+pub const EDeviceActivityLevel_EDeviceActivityLevel_k_EDeviceActivityLevel_Idle:
+          EDeviceActivityLevel =
+    0;
+pub const EDeviceActivityLevel_EDeviceActivityLevel_k_EDeviceActivityLevel_UserInteraction:
+          EDeviceActivityLevel =
+    1;
+pub const EDeviceActivityLevel_EDeviceActivityLevel_k_EDeviceActivityLevel_UserInteraction_Timeout:
+          EDeviceActivityLevel =
+    2;
+pub const EDeviceActivityLevel_EDeviceActivityLevel_k_EDeviceActivityLevel_Standby:
+          EDeviceActivityLevel =
+    3;
+pub type EDeviceActivityLevel = ::std::os::raw::c_int;
+pub const EVRButtonId_EVRButtonId_k_EButton_System: EVRButtonId = 0;
+pub const EVRButtonId_EVRButtonId_k_EButton_ApplicationMenu: EVRButtonId = 1;
+pub const EVRButtonId_EVRButtonId_k_EButton_Grip: EVRButtonId = 2;
+pub const EVRButtonId_EVRButtonId_k_EButton_DPad_Left: EVRButtonId = 3;
+pub const EVRButtonId_EVRButtonId_k_EButton_DPad_Up: EVRButtonId = 4;
+pub const EVRButtonId_EVRButtonId_k_EButton_DPad_Right: EVRButtonId = 5;
+pub const EVRButtonId_EVRButtonId_k_EButton_DPad_Down: EVRButtonId = 6;
+pub const EVRButtonId_EVRButtonId_k_EButton_A: EVRButtonId = 7;
+pub const EVRButtonId_EVRButtonId_k_EButton_ProximitySensor: EVRButtonId = 31;
+pub const EVRButtonId_EVRButtonId_k_EButton_Axis0: EVRButtonId = 32;
+pub const EVRButtonId_EVRButtonId_k_EButton_Axis1: EVRButtonId = 33;
+pub const EVRButtonId_EVRButtonId_k_EButton_Axis2: EVRButtonId = 34;
+pub const EVRButtonId_EVRButtonId_k_EButton_Axis3: EVRButtonId = 35;
+pub const EVRButtonId_EVRButtonId_k_EButton_Axis4: EVRButtonId = 36;
 pub const EVRButtonId_EVRButtonId_k_EButton_SteamVR_Touchpad: EVRButtonId =
-    EVRButtonId::EVRButtonId_k_EButton_Axis0;
-pub const EVRButtonId_EVRButtonId_k_EButton_SteamVR_Trigger: EVRButtonId =
-    EVRButtonId::EVRButtonId_k_EButton_Axis1;
-pub const EVRButtonId_EVRButtonId_k_EButton_Dashboard_Back: EVRButtonId =
-    EVRButtonId::EVRButtonId_k_EButton_Grip;
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVRButtonId {
-    EVRButtonId_k_EButton_System = 0,
-    EVRButtonId_k_EButton_ApplicationMenu = 1,
-    EVRButtonId_k_EButton_Grip = 2,
-    EVRButtonId_k_EButton_DPad_Left = 3,
-    EVRButtonId_k_EButton_DPad_Up = 4,
-    EVRButtonId_k_EButton_DPad_Right = 5,
-    EVRButtonId_k_EButton_DPad_Down = 6,
-    EVRButtonId_k_EButton_A = 7,
-    EVRButtonId_k_EButton_ProximitySensor = 31,
-    EVRButtonId_k_EButton_Axis0 = 32,
-    EVRButtonId_k_EButton_Axis1 = 33,
-    EVRButtonId_k_EButton_Axis2 = 34,
-    EVRButtonId_k_EButton_Axis3 = 35,
-    EVRButtonId_k_EButton_Axis4 = 36,
-    EVRButtonId_k_EButton_Max = 64,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVRMouseButton {
-    EVRMouseButton_VRMouseButton_Left = 1,
-    EVRMouseButton_VRMouseButton_Right = 2,
-    EVRMouseButton_VRMouseButton_Middle = 4,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EHiddenAreaMeshType {
-    EHiddenAreaMeshType_k_eHiddenAreaMesh_Standard = 0,
-    EHiddenAreaMeshType_k_eHiddenAreaMesh_Inverse = 1,
-    EHiddenAreaMeshType_k_eHiddenAreaMesh_LineLoop = 2,
-    EHiddenAreaMeshType_k_eHiddenAreaMesh_Max = 3,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVRControllerAxisType {
-    EVRControllerAxisType_k_eControllerAxis_None = 0,
-    EVRControllerAxisType_k_eControllerAxis_TrackPad = 1,
-    EVRControllerAxisType_k_eControllerAxis_Joystick = 2,
-    EVRControllerAxisType_k_eControllerAxis_Trigger = 3,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVRControllerEventOutputType {
-    EVRControllerEventOutputType_ControllerEventOutput_OSEvents = 0,
-    EVRControllerEventOutputType_ControllerEventOutput_VREvents = 1,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum ECollisionBoundsStyle {
-    ECollisionBoundsStyle_COLLISION_BOUNDS_STYLE_BEGINNER = 0,
-    ECollisionBoundsStyle_COLLISION_BOUNDS_STYLE_INTERMEDIATE = 1,
-    ECollisionBoundsStyle_COLLISION_BOUNDS_STYLE_SQUARES = 2,
-    ECollisionBoundsStyle_COLLISION_BOUNDS_STYLE_ADVANCED = 3,
-    ECollisionBoundsStyle_COLLISION_BOUNDS_STYLE_NONE = 4,
-    ECollisionBoundsStyle_COLLISION_BOUNDS_STYLE_COUNT = 5,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVROverlayError {
-    EVROverlayError_VROverlayError_None = 0,
-    EVROverlayError_VROverlayError_UnknownOverlay = 10,
-    EVROverlayError_VROverlayError_InvalidHandle = 11,
-    EVROverlayError_VROverlayError_PermissionDenied = 12,
-    EVROverlayError_VROverlayError_OverlayLimitExceeded = 13,
-    EVROverlayError_VROverlayError_WrongVisibilityType = 14,
-    EVROverlayError_VROverlayError_KeyTooLong = 15,
-    EVROverlayError_VROverlayError_NameTooLong = 16,
-    EVROverlayError_VROverlayError_KeyInUse = 17,
-    EVROverlayError_VROverlayError_WrongTransformType = 18,
-    EVROverlayError_VROverlayError_InvalidTrackedDevice = 19,
-    EVROverlayError_VROverlayError_InvalidParameter = 20,
-    EVROverlayError_VROverlayError_ThumbnailCantBeDestroyed = 21,
-    EVROverlayError_VROverlayError_ArrayTooSmall = 22,
-    EVROverlayError_VROverlayError_RequestFailed = 23,
-    EVROverlayError_VROverlayError_InvalidTexture = 24,
-    EVROverlayError_VROverlayError_UnableToLoadFile = 25,
-    EVROverlayError_VROverlayError_KeyboardAlreadyInUse = 26,
-    EVROverlayError_VROverlayError_NoNeighbor = 27,
-    EVROverlayError_VROverlayError_TooManyMaskPrimitives = 29,
-    EVROverlayError_VROverlayError_BadMaskPrimitive = 30,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVRApplicationType {
-    EVRApplicationType_VRApplication_Other = 0,
-    EVRApplicationType_VRApplication_Scene = 1,
-    EVRApplicationType_VRApplication_Overlay = 2,
-    EVRApplicationType_VRApplication_Background = 3,
-    EVRApplicationType_VRApplication_Utility = 4,
-    EVRApplicationType_VRApplication_VRMonitor = 5,
-    EVRApplicationType_VRApplication_SteamWatchdog = 6,
-    EVRApplicationType_VRApplication_Bootstrapper = 7,
-    EVRApplicationType_VRApplication_Max = 8,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVRFirmwareError {
-    EVRFirmwareError_VRFirmwareError_None = 0,
-    EVRFirmwareError_VRFirmwareError_Success = 1,
-    EVRFirmwareError_VRFirmwareError_Fail = 2,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVRNotificationError {
-    EVRNotificationError_VRNotificationError_OK = 0,
-    EVRNotificationError_VRNotificationError_InvalidNotificationId = 100,
-    EVRNotificationError_VRNotificationError_NotificationQueueFull = 101,
-    EVRNotificationError_VRNotificationError_InvalidOverlayHandle = 102,
-    EVRNotificationError_VRNotificationError_SystemWithUserValueAlreadyExists
-        = 103,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVRInitError {
-    EVRInitError_VRInitError_None = 0,
-    EVRInitError_VRInitError_Unknown = 1,
-    EVRInitError_VRInitError_Init_InstallationNotFound = 100,
-    EVRInitError_VRInitError_Init_InstallationCorrupt = 101,
-    EVRInitError_VRInitError_Init_VRClientDLLNotFound = 102,
-    EVRInitError_VRInitError_Init_FileNotFound = 103,
-    EVRInitError_VRInitError_Init_FactoryNotFound = 104,
-    EVRInitError_VRInitError_Init_InterfaceNotFound = 105,
-    EVRInitError_VRInitError_Init_InvalidInterface = 106,
-    EVRInitError_VRInitError_Init_UserConfigDirectoryInvalid = 107,
-    EVRInitError_VRInitError_Init_HmdNotFound = 108,
-    EVRInitError_VRInitError_Init_NotInitialized = 109,
-    EVRInitError_VRInitError_Init_PathRegistryNotFound = 110,
-    EVRInitError_VRInitError_Init_NoConfigPath = 111,
-    EVRInitError_VRInitError_Init_NoLogPath = 112,
-    EVRInitError_VRInitError_Init_PathRegistryNotWritable = 113,
-    EVRInitError_VRInitError_Init_AppInfoInitFailed = 114,
-    EVRInitError_VRInitError_Init_Retry = 115,
-    EVRInitError_VRInitError_Init_InitCanceledByUser = 116,
-    EVRInitError_VRInitError_Init_AnotherAppLaunching = 117,
-    EVRInitError_VRInitError_Init_SettingsInitFailed = 118,
-    EVRInitError_VRInitError_Init_ShuttingDown = 119,
-    EVRInitError_VRInitError_Init_TooManyObjects = 120,
-    EVRInitError_VRInitError_Init_NoServerForBackgroundApp = 121,
-    EVRInitError_VRInitError_Init_NotSupportedWithCompositor = 122,
-    EVRInitError_VRInitError_Init_NotAvailableToUtilityApps = 123,
-    EVRInitError_VRInitError_Init_Internal = 124,
-    EVRInitError_VRInitError_Init_HmdDriverIdIsNone = 125,
-    EVRInitError_VRInitError_Init_HmdNotFoundPresenceFailed = 126,
-    EVRInitError_VRInitError_Init_VRMonitorNotFound = 127,
-    EVRInitError_VRInitError_Init_VRMonitorStartupFailed = 128,
-    EVRInitError_VRInitError_Init_LowPowerWatchdogNotSupported = 129,
-    EVRInitError_VRInitError_Init_InvalidApplicationType = 130,
-    EVRInitError_VRInitError_Init_NotAvailableToWatchdogApps = 131,
-    EVRInitError_VRInitError_Init_WatchdogDisabledInSettings = 132,
-    EVRInitError_VRInitError_Init_VRDashboardNotFound = 133,
-    EVRInitError_VRInitError_Init_VRDashboardStartupFailed = 134,
-    EVRInitError_VRInitError_Driver_Failed = 200,
-    EVRInitError_VRInitError_Driver_Unknown = 201,
-    EVRInitError_VRInitError_Driver_HmdUnknown = 202,
-    EVRInitError_VRInitError_Driver_NotLoaded = 203,
-    EVRInitError_VRInitError_Driver_RuntimeOutOfDate = 204,
-    EVRInitError_VRInitError_Driver_HmdInUse = 205,
-    EVRInitError_VRInitError_Driver_NotCalibrated = 206,
-    EVRInitError_VRInitError_Driver_CalibrationInvalid = 207,
-    EVRInitError_VRInitError_Driver_HmdDisplayNotFound = 208,
-    EVRInitError_VRInitError_Driver_TrackedDeviceInterfaceUnknown = 209,
-    EVRInitError_VRInitError_Driver_HmdDriverIdOutOfBounds = 211,
-    EVRInitError_VRInitError_Driver_HmdDisplayMirrored = 212,
-    EVRInitError_VRInitError_IPC_ServerInitFailed = 300,
-    EVRInitError_VRInitError_IPC_ConnectFailed = 301,
-    EVRInitError_VRInitError_IPC_SharedStateInitFailed = 302,
-    EVRInitError_VRInitError_IPC_CompositorInitFailed = 303,
-    EVRInitError_VRInitError_IPC_MutexInitFailed = 304,
-    EVRInitError_VRInitError_IPC_Failed = 305,
-    EVRInitError_VRInitError_IPC_CompositorConnectFailed = 306,
-    EVRInitError_VRInitError_IPC_CompositorInvalidConnectResponse = 307,
-    EVRInitError_VRInitError_IPC_ConnectFailedAfterMultipleAttempts = 308,
-    EVRInitError_VRInitError_Compositor_Failed = 400,
-    EVRInitError_VRInitError_Compositor_D3D11HardwareRequired = 401,
-    EVRInitError_VRInitError_Compositor_FirmwareRequiresUpdate = 402,
-    EVRInitError_VRInitError_Compositor_OverlayInitFailed = 403,
-    EVRInitError_VRInitError_Compositor_ScreenshotsInitFailed = 404,
-    EVRInitError_VRInitError_VendorSpecific_UnableToConnectToOculusRuntime =
-        1000,
-    EVRInitError_VRInitError_VendorSpecific_HmdFound_CantOpenDevice = 1101,
-    EVRInitError_VRInitError_VendorSpecific_HmdFound_UnableToRequestConfigStart
-        = 1102,
-    EVRInitError_VRInitError_VendorSpecific_HmdFound_NoStoredConfig = 1103,
-    EVRInitError_VRInitError_VendorSpecific_HmdFound_ConfigTooBig = 1104,
-    EVRInitError_VRInitError_VendorSpecific_HmdFound_ConfigTooSmall = 1105,
-    EVRInitError_VRInitError_VendorSpecific_HmdFound_UnableToInitZLib = 1106,
-    EVRInitError_VRInitError_VendorSpecific_HmdFound_CantReadFirmwareVersion =
-        1107,
-    EVRInitError_VRInitError_VendorSpecific_HmdFound_UnableToSendUserDataStart
-        = 1108,
-    EVRInitError_VRInitError_VendorSpecific_HmdFound_UnableToGetUserDataStart
-        = 1109,
-    EVRInitError_VRInitError_VendorSpecific_HmdFound_UnableToGetUserDataNext =
-        1110,
-    EVRInitError_VRInitError_VendorSpecific_HmdFound_UserDataAddressRange =
-        1111,
-    EVRInitError_VRInitError_VendorSpecific_HmdFound_UserDataError = 1112,
-    EVRInitError_VRInitError_VendorSpecific_HmdFound_ConfigFailedSanityCheck =
-        1113,
-    EVRInitError_VRInitError_Steam_SteamInstallationNotFound = 2000,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVRScreenshotType {
-    EVRScreenshotType_VRScreenshotType_None = 0,
-    EVRScreenshotType_VRScreenshotType_Mono = 1,
-    EVRScreenshotType_VRScreenshotType_Stereo = 2,
-    EVRScreenshotType_VRScreenshotType_Cubemap = 3,
-    EVRScreenshotType_VRScreenshotType_MonoPanorama = 4,
-    EVRScreenshotType_VRScreenshotType_StereoPanorama = 5,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVRScreenshotPropertyFilenames {
-    EVRScreenshotPropertyFilenames_VRScreenshotPropertyFilenames_Preview = 0,
-    EVRScreenshotPropertyFilenames_VRScreenshotPropertyFilenames_VR = 1,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVRTrackedCameraError {
-    EVRTrackedCameraError_VRTrackedCameraError_None = 0,
-    EVRTrackedCameraError_VRTrackedCameraError_OperationFailed = 100,
-    EVRTrackedCameraError_VRTrackedCameraError_InvalidHandle = 101,
-    EVRTrackedCameraError_VRTrackedCameraError_InvalidFrameHeaderVersion =
-        102,
-    EVRTrackedCameraError_VRTrackedCameraError_OutOfHandles = 103,
-    EVRTrackedCameraError_VRTrackedCameraError_IPCFailure = 104,
-    EVRTrackedCameraError_VRTrackedCameraError_NotSupportedForThisDevice =
-        105,
-    EVRTrackedCameraError_VRTrackedCameraError_SharedMemoryFailure = 106,
-    EVRTrackedCameraError_VRTrackedCameraError_FrameBufferingFailure = 107,
-    EVRTrackedCameraError_VRTrackedCameraError_StreamSetupFailure = 108,
-    EVRTrackedCameraError_VRTrackedCameraError_InvalidGLTextureId = 109,
-    EVRTrackedCameraError_VRTrackedCameraError_InvalidSharedTextureHandle =
-        110,
-    EVRTrackedCameraError_VRTrackedCameraError_FailedToGetGLTextureId = 111,
-    EVRTrackedCameraError_VRTrackedCameraError_SharedTextureFailure = 112,
-    EVRTrackedCameraError_VRTrackedCameraError_NoFrameAvailable = 113,
-    EVRTrackedCameraError_VRTrackedCameraError_InvalidArgument = 114,
-    EVRTrackedCameraError_VRTrackedCameraError_InvalidFrameBufferSize = 115,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVRTrackedCameraFrameType {
-    EVRTrackedCameraFrameType_VRTrackedCameraFrameType_Distorted = 0,
-    EVRTrackedCameraFrameType_VRTrackedCameraFrameType_Undistorted = 1,
-    EVRTrackedCameraFrameType_VRTrackedCameraFrameType_MaximumUndistorted = 2,
-    EVRTrackedCameraFrameType_MAX_CAMERA_FRAME_TYPES = 3,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVRApplicationError {
-    EVRApplicationError_VRApplicationError_None = 0,
-    EVRApplicationError_VRApplicationError_AppKeyAlreadyExists = 100,
-    EVRApplicationError_VRApplicationError_NoManifest = 101,
-    EVRApplicationError_VRApplicationError_NoApplication = 102,
-    EVRApplicationError_VRApplicationError_InvalidIndex = 103,
-    EVRApplicationError_VRApplicationError_UnknownApplication = 104,
-    EVRApplicationError_VRApplicationError_IPCFailed = 105,
-    EVRApplicationError_VRApplicationError_ApplicationAlreadyRunning = 106,
-    EVRApplicationError_VRApplicationError_InvalidManifest = 107,
-    EVRApplicationError_VRApplicationError_InvalidApplication = 108,
-    EVRApplicationError_VRApplicationError_LaunchFailed = 109,
-    EVRApplicationError_VRApplicationError_ApplicationAlreadyStarting = 110,
-    EVRApplicationError_VRApplicationError_LaunchInProgress = 111,
-    EVRApplicationError_VRApplicationError_OldApplicationQuitting = 112,
-    EVRApplicationError_VRApplicationError_TransitionAborted = 113,
-    EVRApplicationError_VRApplicationError_IsTemplate = 114,
-    EVRApplicationError_VRApplicationError_BufferTooSmall = 200,
-    EVRApplicationError_VRApplicationError_PropertyNotSet = 201,
-    EVRApplicationError_VRApplicationError_UnknownProperty = 202,
-    EVRApplicationError_VRApplicationError_InvalidParameter = 203,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVRApplicationProperty {
-    EVRApplicationProperty_VRApplicationProperty_Name_String = 0,
-    EVRApplicationProperty_VRApplicationProperty_LaunchType_String = 11,
-    EVRApplicationProperty_VRApplicationProperty_WorkingDirectory_String = 12,
-    EVRApplicationProperty_VRApplicationProperty_BinaryPath_String = 13,
-    EVRApplicationProperty_VRApplicationProperty_Arguments_String = 14,
-    EVRApplicationProperty_VRApplicationProperty_URL_String = 15,
-    EVRApplicationProperty_VRApplicationProperty_Description_String = 50,
-    EVRApplicationProperty_VRApplicationProperty_NewsURL_String = 51,
-    EVRApplicationProperty_VRApplicationProperty_ImagePath_String = 52,
-    EVRApplicationProperty_VRApplicationProperty_Source_String = 53,
-    EVRApplicationProperty_VRApplicationProperty_IsDashboardOverlay_Bool = 60,
-    EVRApplicationProperty_VRApplicationProperty_IsTemplate_Bool = 61,
-    EVRApplicationProperty_VRApplicationProperty_IsInstanced_Bool = 62,
-    EVRApplicationProperty_VRApplicationProperty_IsInternal_Bool = 63,
-    EVRApplicationProperty_VRApplicationProperty_LastLaunchTime_Uint64 = 70,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVRApplicationTransitionState {
-    EVRApplicationTransitionState_VRApplicationTransition_None = 0,
-    EVRApplicationTransitionState_VRApplicationTransition_OldAppQuitSent = 10,
-    EVRApplicationTransitionState_VRApplicationTransition_WaitingForExternalLaunch
-        = 11,
-    EVRApplicationTransitionState_VRApplicationTransition_NewAppLaunched = 20,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum ChaperoneCalibrationState {
-    ChaperoneCalibrationState_OK = 1,
-    ChaperoneCalibrationState_Warning = 100,
-    ChaperoneCalibrationState_Warning_BaseStationMayHaveMoved = 101,
-    ChaperoneCalibrationState_Warning_BaseStationRemoved = 102,
-    ChaperoneCalibrationState_Warning_SeatedBoundsInvalid = 103,
-    ChaperoneCalibrationState_Error = 200,
-    ChaperoneCalibrationState_Error_BaseStationUninitialized = 201,
-    ChaperoneCalibrationState_Error_BaseStationConflict = 202,
-    ChaperoneCalibrationState_Error_PlayAreaInvalid = 203,
-    ChaperoneCalibrationState_Error_CollisionBoundsInvalid = 204,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EChaperoneConfigFile {
-    EChaperoneConfigFile_Live = 1,
-    EChaperoneConfigFile_Temp = 2,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EChaperoneImportFlags {
-    EChaperoneImportFlags_EChaperoneImport_BoundsOnly = 1,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVRCompositorError {
-    EVRCompositorError_VRCompositorError_None = 0,
-    EVRCompositorError_VRCompositorError_RequestFailed = 1,
-    EVRCompositorError_VRCompositorError_IncompatibleVersion = 100,
-    EVRCompositorError_VRCompositorError_DoNotHaveFocus = 101,
-    EVRCompositorError_VRCompositorError_InvalidTexture = 102,
-    EVRCompositorError_VRCompositorError_IsNotSceneApplication = 103,
-    EVRCompositorError_VRCompositorError_TextureIsOnWrongDevice = 104,
-    EVRCompositorError_VRCompositorError_TextureUsesUnsupportedFormat = 105,
-    EVRCompositorError_VRCompositorError_SharedTexturesNotSupported = 106,
-    EVRCompositorError_VRCompositorError_IndexOutOfRange = 107,
-    EVRCompositorError_VRCompositorError_AlreadySubmitted = 108,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum VROverlayInputMethod {
-    VROverlayInputMethod_None = 0,
-    VROverlayInputMethod_Mouse = 1,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum VROverlayTransformType {
-    VROverlayTransformType_VROverlayTransform_Absolute = 0,
-    VROverlayTransformType_VROverlayTransform_TrackedDeviceRelative = 1,
-    VROverlayTransformType_VROverlayTransform_SystemOverlay = 2,
-    VROverlayTransformType_VROverlayTransform_TrackedComponent = 3,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum VROverlayFlags {
-    VROverlayFlags_None = 0,
-    VROverlayFlags_Curved = 1,
-    VROverlayFlags_RGSS4X = 2,
-    VROverlayFlags_NoDashboardTab = 3,
-    VROverlayFlags_AcceptsGamepadEvents = 4,
-    VROverlayFlags_ShowGamepadFocus = 5,
-    VROverlayFlags_SendVRScrollEvents = 6,
-    VROverlayFlags_SendVRTouchpadEvents = 7,
-    VROverlayFlags_ShowTouchPadScrollWheel = 8,
-    VROverlayFlags_TransferOwnershipToInternalProcess = 9,
-    VROverlayFlags_SideBySide_Parallel = 10,
-    VROverlayFlags_SideBySide_Crossed = 11,
-    VROverlayFlags_Panorama = 12,
-    VROverlayFlags_StereoPanorama = 13,
-    VROverlayFlags_SortWithNonSceneOverlays = 14,
-    VROverlayFlags_VisibleInDashboard = 15,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum VRMessageOverlayResponse {
-    VRMessageOverlayResponse_ButtonPress_0 = 0,
-    VRMessageOverlayResponse_ButtonPress_1 = 1,
-    VRMessageOverlayResponse_ButtonPress_2 = 2,
-    VRMessageOverlayResponse_ButtonPress_3 = 3,
-    VRMessageOverlayResponse_CouldntFindSystemOverlay = 4,
-    VRMessageOverlayResponse_CouldntFindOrCreateClientOverlay = 5,
-    VRMessageOverlayResponse_ApplicationQuit = 6,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EGamepadTextInputMode {
-    EGamepadTextInputMode_k_EGamepadTextInputModeNormal = 0,
-    EGamepadTextInputMode_k_EGamepadTextInputModePassword = 1,
-    EGamepadTextInputMode_k_EGamepadTextInputModeSubmit = 2,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EGamepadTextInputLineMode {
-    EGamepadTextInputLineMode_k_EGamepadTextInputLineModeSingleLine = 0,
-    EGamepadTextInputLineMode_k_EGamepadTextInputLineModeMultipleLines = 1,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EOverlayDirection {
-    EOverlayDirection_OverlayDirection_Up = 0,
-    EOverlayDirection_OverlayDirection_Down = 1,
-    EOverlayDirection_OverlayDirection_Left = 2,
-    EOverlayDirection_OverlayDirection_Right = 3,
-    EOverlayDirection_OverlayDirection_Count = 4,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVROverlayIntersectionMaskPrimitiveType {
-    EVROverlayIntersectionMaskPrimitiveType_OverlayIntersectionPrimitiveType_Rectangle
-        = 0,
-    EVROverlayIntersectionMaskPrimitiveType_OverlayIntersectionPrimitiveType_Circle
-        = 1,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVRRenderModelError {
-    EVRRenderModelError_VRRenderModelError_None = 0,
-    EVRRenderModelError_VRRenderModelError_Loading = 100,
-    EVRRenderModelError_VRRenderModelError_NotSupported = 200,
-    EVRRenderModelError_VRRenderModelError_InvalidArg = 300,
-    EVRRenderModelError_VRRenderModelError_InvalidModel = 301,
-    EVRRenderModelError_VRRenderModelError_NoShapes = 302,
-    EVRRenderModelError_VRRenderModelError_MultipleShapes = 303,
-    EVRRenderModelError_VRRenderModelError_TooManyVertices = 304,
-    EVRRenderModelError_VRRenderModelError_MultipleTextures = 305,
-    EVRRenderModelError_VRRenderModelError_BufferTooSmall = 306,
-    EVRRenderModelError_VRRenderModelError_NotEnoughNormals = 307,
-    EVRRenderModelError_VRRenderModelError_NotEnoughTexCoords = 308,
-    EVRRenderModelError_VRRenderModelError_InvalidTexture = 400,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVRComponentProperty {
-    EVRComponentProperty_VRComponentProperty_IsStatic = 1,
-    EVRComponentProperty_VRComponentProperty_IsVisible = 2,
-    EVRComponentProperty_VRComponentProperty_IsTouched = 4,
-    EVRComponentProperty_VRComponentProperty_IsPressed = 8,
-    EVRComponentProperty_VRComponentProperty_IsScrolled = 16,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVRNotificationType {
-    EVRNotificationType_Transient = 0,
-    EVRNotificationType_Persistent = 1,
-    EVRNotificationType_Transient_SystemWithUserValue = 2,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVRNotificationStyle {
-    EVRNotificationStyle_None = 0,
-    EVRNotificationStyle_Application = 100,
-    EVRNotificationStyle_Contact_Disabled = 200,
-    EVRNotificationStyle_Contact_Enabled = 201,
-    EVRNotificationStyle_Contact_Active = 202,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVRSettingsError {
-    EVRSettingsError_VRSettingsError_None = 0,
-    EVRSettingsError_VRSettingsError_IPCFailed = 1,
-    EVRSettingsError_VRSettingsError_WriteFailed = 2,
-    EVRSettingsError_VRSettingsError_ReadFailed = 3,
-    EVRSettingsError_VRSettingsError_JsonParseFailed = 4,
-    EVRSettingsError_VRSettingsError_UnsetSettingHasNoDefault = 5,
-}
-#[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum EVRScreenshotError {
-    EVRScreenshotError_VRScreenshotError_None = 0,
-    EVRScreenshotError_VRScreenshotError_RequestFailed = 1,
-    EVRScreenshotError_VRScreenshotError_IncompatibleVersion = 100,
-    EVRScreenshotError_VRScreenshotError_NotFound = 101,
-    EVRScreenshotError_VRScreenshotError_BufferTooSmall = 102,
-    EVRScreenshotError_VRScreenshotError_ScreenshotAlreadyInProgress = 108,
-}
+    32;
+pub const EVRButtonId_EVRButtonId_k_EButton_SteamVR_Trigger: EVRButtonId = 33;
+pub const EVRButtonId_EVRButtonId_k_EButton_Dashboard_Back: EVRButtonId = 2;
+pub const EVRButtonId_EVRButtonId_k_EButton_Max: EVRButtonId = 64;
+pub type EVRButtonId = ::std::os::raw::c_uint;
+pub const EVRMouseButton_EVRMouseButton_VRMouseButton_Left: EVRMouseButton =
+    1;
+pub const EVRMouseButton_EVRMouseButton_VRMouseButton_Right: EVRMouseButton =
+    2;
+pub const EVRMouseButton_EVRMouseButton_VRMouseButton_Middle: EVRMouseButton =
+    4;
+pub type EVRMouseButton = ::std::os::raw::c_uint;
+pub const EHiddenAreaMeshType_EHiddenAreaMeshType_k_eHiddenAreaMesh_Standard:
+          EHiddenAreaMeshType =
+    0;
+pub const EHiddenAreaMeshType_EHiddenAreaMeshType_k_eHiddenAreaMesh_Inverse:
+          EHiddenAreaMeshType =
+    1;
+pub const EHiddenAreaMeshType_EHiddenAreaMeshType_k_eHiddenAreaMesh_LineLoop:
+          EHiddenAreaMeshType =
+    2;
+pub const EHiddenAreaMeshType_EHiddenAreaMeshType_k_eHiddenAreaMesh_Max:
+          EHiddenAreaMeshType =
+    3;
+pub type EHiddenAreaMeshType = ::std::os::raw::c_uint;
+pub const EVRControllerAxisType_EVRControllerAxisType_k_eControllerAxis_None:
+          EVRControllerAxisType =
+    0;
+pub const EVRControllerAxisType_EVRControllerAxisType_k_eControllerAxis_TrackPad:
+          EVRControllerAxisType =
+    1;
+pub const EVRControllerAxisType_EVRControllerAxisType_k_eControllerAxis_Joystick:
+          EVRControllerAxisType =
+    2;
+pub const EVRControllerAxisType_EVRControllerAxisType_k_eControllerAxis_Trigger:
+          EVRControllerAxisType =
+    3;
+pub type EVRControllerAxisType = ::std::os::raw::c_uint;
+pub const EVRControllerEventOutputType_EVRControllerEventOutputType_ControllerEventOutput_OSEvents:
+          EVRControllerEventOutputType =
+    0;
+pub const EVRControllerEventOutputType_EVRControllerEventOutputType_ControllerEventOutput_VREvents:
+          EVRControllerEventOutputType =
+    1;
+pub type EVRControllerEventOutputType = ::std::os::raw::c_uint;
+pub const ECollisionBoundsStyle_ECollisionBoundsStyle_COLLISION_BOUNDS_STYLE_BEGINNER:
+          ECollisionBoundsStyle =
+    0;
+pub const ECollisionBoundsStyle_ECollisionBoundsStyle_COLLISION_BOUNDS_STYLE_INTERMEDIATE:
+          ECollisionBoundsStyle =
+    1;
+pub const ECollisionBoundsStyle_ECollisionBoundsStyle_COLLISION_BOUNDS_STYLE_SQUARES:
+          ECollisionBoundsStyle =
+    2;
+pub const ECollisionBoundsStyle_ECollisionBoundsStyle_COLLISION_BOUNDS_STYLE_ADVANCED:
+          ECollisionBoundsStyle =
+    3;
+pub const ECollisionBoundsStyle_ECollisionBoundsStyle_COLLISION_BOUNDS_STYLE_NONE:
+          ECollisionBoundsStyle =
+    4;
+pub const ECollisionBoundsStyle_ECollisionBoundsStyle_COLLISION_BOUNDS_STYLE_COUNT:
+          ECollisionBoundsStyle =
+    5;
+pub type ECollisionBoundsStyle = ::std::os::raw::c_uint;
+pub const EVROverlayError_EVROverlayError_VROverlayError_None: EVROverlayError
+          =
+    0;
+pub const EVROverlayError_EVROverlayError_VROverlayError_UnknownOverlay:
+          EVROverlayError =
+    10;
+pub const EVROverlayError_EVROverlayError_VROverlayError_InvalidHandle:
+          EVROverlayError =
+    11;
+pub const EVROverlayError_EVROverlayError_VROverlayError_PermissionDenied:
+          EVROverlayError =
+    12;
+pub const EVROverlayError_EVROverlayError_VROverlayError_OverlayLimitExceeded:
+          EVROverlayError =
+    13;
+pub const EVROverlayError_EVROverlayError_VROverlayError_WrongVisibilityType:
+          EVROverlayError =
+    14;
+pub const EVROverlayError_EVROverlayError_VROverlayError_KeyTooLong:
+          EVROverlayError =
+    15;
+pub const EVROverlayError_EVROverlayError_VROverlayError_NameTooLong:
+          EVROverlayError =
+    16;
+pub const EVROverlayError_EVROverlayError_VROverlayError_KeyInUse:
+          EVROverlayError =
+    17;
+pub const EVROverlayError_EVROverlayError_VROverlayError_WrongTransformType:
+          EVROverlayError =
+    18;
+pub const EVROverlayError_EVROverlayError_VROverlayError_InvalidTrackedDevice:
+          EVROverlayError =
+    19;
+pub const EVROverlayError_EVROverlayError_VROverlayError_InvalidParameter:
+          EVROverlayError =
+    20;
+pub const EVROverlayError_EVROverlayError_VROverlayError_ThumbnailCantBeDestroyed:
+          EVROverlayError =
+    21;
+pub const EVROverlayError_EVROverlayError_VROverlayError_ArrayTooSmall:
+          EVROverlayError =
+    22;
+pub const EVROverlayError_EVROverlayError_VROverlayError_RequestFailed:
+          EVROverlayError =
+    23;
+pub const EVROverlayError_EVROverlayError_VROverlayError_InvalidTexture:
+          EVROverlayError =
+    24;
+pub const EVROverlayError_EVROverlayError_VROverlayError_UnableToLoadFile:
+          EVROverlayError =
+    25;
+pub const EVROverlayError_EVROverlayError_VROverlayError_KeyboardAlreadyInUse:
+          EVROverlayError =
+    26;
+pub const EVROverlayError_EVROverlayError_VROverlayError_NoNeighbor:
+          EVROverlayError =
+    27;
+pub const EVROverlayError_EVROverlayError_VROverlayError_TooManyMaskPrimitives:
+          EVROverlayError =
+    29;
+pub const EVROverlayError_EVROverlayError_VROverlayError_BadMaskPrimitive:
+          EVROverlayError =
+    30;
+pub type EVROverlayError = ::std::os::raw::c_uint;
+pub const EVRApplicationType_EVRApplicationType_VRApplication_Other:
+          EVRApplicationType =
+    0;
+pub const EVRApplicationType_EVRApplicationType_VRApplication_Scene:
+          EVRApplicationType =
+    1;
+pub const EVRApplicationType_EVRApplicationType_VRApplication_Overlay:
+          EVRApplicationType =
+    2;
+pub const EVRApplicationType_EVRApplicationType_VRApplication_Background:
+          EVRApplicationType =
+    3;
+pub const EVRApplicationType_EVRApplicationType_VRApplication_Utility:
+          EVRApplicationType =
+    4;
+pub const EVRApplicationType_EVRApplicationType_VRApplication_VRMonitor:
+          EVRApplicationType =
+    5;
+pub const EVRApplicationType_EVRApplicationType_VRApplication_SteamWatchdog:
+          EVRApplicationType =
+    6;
+pub const EVRApplicationType_EVRApplicationType_VRApplication_Bootstrapper:
+          EVRApplicationType =
+    7;
+pub const EVRApplicationType_EVRApplicationType_VRApplication_Max:
+          EVRApplicationType =
+    8;
+pub type EVRApplicationType = ::std::os::raw::c_uint;
+pub const EVRFirmwareError_EVRFirmwareError_VRFirmwareError_None:
+          EVRFirmwareError =
+    0;
+pub const EVRFirmwareError_EVRFirmwareError_VRFirmwareError_Success:
+          EVRFirmwareError =
+    1;
+pub const EVRFirmwareError_EVRFirmwareError_VRFirmwareError_Fail:
+          EVRFirmwareError =
+    2;
+pub type EVRFirmwareError = ::std::os::raw::c_uint;
+pub const EVRNotificationError_EVRNotificationError_VRNotificationError_OK:
+          EVRNotificationError =
+    0;
+pub const EVRNotificationError_EVRNotificationError_VRNotificationError_InvalidNotificationId:
+          EVRNotificationError =
+    100;
+pub const EVRNotificationError_EVRNotificationError_VRNotificationError_NotificationQueueFull:
+          EVRNotificationError =
+    101;
+pub const EVRNotificationError_EVRNotificationError_VRNotificationError_InvalidOverlayHandle:
+          EVRNotificationError =
+    102;
+pub const EVRNotificationError_EVRNotificationError_VRNotificationError_SystemWithUserValueAlreadyExists:
+          EVRNotificationError =
+    103;
+pub type EVRNotificationError = ::std::os::raw::c_uint;
+pub const EVRInitError_EVRInitError_VRInitError_None: EVRInitError = 0;
+pub const EVRInitError_EVRInitError_VRInitError_Unknown: EVRInitError = 1;
+pub const EVRInitError_EVRInitError_VRInitError_Init_InstallationNotFound:
+          EVRInitError =
+    100;
+pub const EVRInitError_EVRInitError_VRInitError_Init_InstallationCorrupt:
+          EVRInitError =
+    101;
+pub const EVRInitError_EVRInitError_VRInitError_Init_VRClientDLLNotFound:
+          EVRInitError =
+    102;
+pub const EVRInitError_EVRInitError_VRInitError_Init_FileNotFound:
+          EVRInitError =
+    103;
+pub const EVRInitError_EVRInitError_VRInitError_Init_FactoryNotFound:
+          EVRInitError =
+    104;
+pub const EVRInitError_EVRInitError_VRInitError_Init_InterfaceNotFound:
+          EVRInitError =
+    105;
+pub const EVRInitError_EVRInitError_VRInitError_Init_InvalidInterface:
+          EVRInitError =
+    106;
+pub const EVRInitError_EVRInitError_VRInitError_Init_UserConfigDirectoryInvalid:
+          EVRInitError =
+    107;
+pub const EVRInitError_EVRInitError_VRInitError_Init_HmdNotFound: EVRInitError
+          =
+    108;
+pub const EVRInitError_EVRInitError_VRInitError_Init_NotInitialized:
+          EVRInitError =
+    109;
+pub const EVRInitError_EVRInitError_VRInitError_Init_PathRegistryNotFound:
+          EVRInitError =
+    110;
+pub const EVRInitError_EVRInitError_VRInitError_Init_NoConfigPath:
+          EVRInitError =
+    111;
+pub const EVRInitError_EVRInitError_VRInitError_Init_NoLogPath: EVRInitError =
+    112;
+pub const EVRInitError_EVRInitError_VRInitError_Init_PathRegistryNotWritable:
+          EVRInitError =
+    113;
+pub const EVRInitError_EVRInitError_VRInitError_Init_AppInfoInitFailed:
+          EVRInitError =
+    114;
+pub const EVRInitError_EVRInitError_VRInitError_Init_Retry: EVRInitError =
+    115;
+pub const EVRInitError_EVRInitError_VRInitError_Init_InitCanceledByUser:
+          EVRInitError =
+    116;
+pub const EVRInitError_EVRInitError_VRInitError_Init_AnotherAppLaunching:
+          EVRInitError =
+    117;
+pub const EVRInitError_EVRInitError_VRInitError_Init_SettingsInitFailed:
+          EVRInitError =
+    118;
+pub const EVRInitError_EVRInitError_VRInitError_Init_ShuttingDown:
+          EVRInitError =
+    119;
+pub const EVRInitError_EVRInitError_VRInitError_Init_TooManyObjects:
+          EVRInitError =
+    120;
+pub const EVRInitError_EVRInitError_VRInitError_Init_NoServerForBackgroundApp:
+          EVRInitError =
+    121;
+pub const EVRInitError_EVRInitError_VRInitError_Init_NotSupportedWithCompositor:
+          EVRInitError =
+    122;
+pub const EVRInitError_EVRInitError_VRInitError_Init_NotAvailableToUtilityApps:
+          EVRInitError =
+    123;
+pub const EVRInitError_EVRInitError_VRInitError_Init_Internal: EVRInitError =
+    124;
+pub const EVRInitError_EVRInitError_VRInitError_Init_HmdDriverIdIsNone:
+          EVRInitError =
+    125;
+pub const EVRInitError_EVRInitError_VRInitError_Init_HmdNotFoundPresenceFailed:
+          EVRInitError =
+    126;
+pub const EVRInitError_EVRInitError_VRInitError_Init_VRMonitorNotFound:
+          EVRInitError =
+    127;
+pub const EVRInitError_EVRInitError_VRInitError_Init_VRMonitorStartupFailed:
+          EVRInitError =
+    128;
+pub const EVRInitError_EVRInitError_VRInitError_Init_LowPowerWatchdogNotSupported:
+          EVRInitError =
+    129;
+pub const EVRInitError_EVRInitError_VRInitError_Init_InvalidApplicationType:
+          EVRInitError =
+    130;
+pub const EVRInitError_EVRInitError_VRInitError_Init_NotAvailableToWatchdogApps:
+          EVRInitError =
+    131;
+pub const EVRInitError_EVRInitError_VRInitError_Init_WatchdogDisabledInSettings:
+          EVRInitError =
+    132;
+pub const EVRInitError_EVRInitError_VRInitError_Init_VRDashboardNotFound:
+          EVRInitError =
+    133;
+pub const EVRInitError_EVRInitError_VRInitError_Init_VRDashboardStartupFailed:
+          EVRInitError =
+    134;
+pub const EVRInitError_EVRInitError_VRInitError_Driver_Failed: EVRInitError =
+    200;
+pub const EVRInitError_EVRInitError_VRInitError_Driver_Unknown: EVRInitError =
+    201;
+pub const EVRInitError_EVRInitError_VRInitError_Driver_HmdUnknown:
+          EVRInitError =
+    202;
+pub const EVRInitError_EVRInitError_VRInitError_Driver_NotLoaded: EVRInitError
+          =
+    203;
+pub const EVRInitError_EVRInitError_VRInitError_Driver_RuntimeOutOfDate:
+          EVRInitError =
+    204;
+pub const EVRInitError_EVRInitError_VRInitError_Driver_HmdInUse: EVRInitError
+          =
+    205;
+pub const EVRInitError_EVRInitError_VRInitError_Driver_NotCalibrated:
+          EVRInitError =
+    206;
+pub const EVRInitError_EVRInitError_VRInitError_Driver_CalibrationInvalid:
+          EVRInitError =
+    207;
+pub const EVRInitError_EVRInitError_VRInitError_Driver_HmdDisplayNotFound:
+          EVRInitError =
+    208;
+pub const EVRInitError_EVRInitError_VRInitError_Driver_TrackedDeviceInterfaceUnknown:
+          EVRInitError =
+    209;
+pub const EVRInitError_EVRInitError_VRInitError_Driver_HmdDriverIdOutOfBounds:
+          EVRInitError =
+    211;
+pub const EVRInitError_EVRInitError_VRInitError_Driver_HmdDisplayMirrored:
+          EVRInitError =
+    212;
+pub const EVRInitError_EVRInitError_VRInitError_IPC_ServerInitFailed:
+          EVRInitError =
+    300;
+pub const EVRInitError_EVRInitError_VRInitError_IPC_ConnectFailed:
+          EVRInitError =
+    301;
+pub const EVRInitError_EVRInitError_VRInitError_IPC_SharedStateInitFailed:
+          EVRInitError =
+    302;
+pub const EVRInitError_EVRInitError_VRInitError_IPC_CompositorInitFailed:
+          EVRInitError =
+    303;
+pub const EVRInitError_EVRInitError_VRInitError_IPC_MutexInitFailed:
+          EVRInitError =
+    304;
+pub const EVRInitError_EVRInitError_VRInitError_IPC_Failed: EVRInitError =
+    305;
+pub const EVRInitError_EVRInitError_VRInitError_IPC_CompositorConnectFailed:
+          EVRInitError =
+    306;
+pub const EVRInitError_EVRInitError_VRInitError_IPC_CompositorInvalidConnectResponse:
+          EVRInitError =
+    307;
+pub const EVRInitError_EVRInitError_VRInitError_IPC_ConnectFailedAfterMultipleAttempts:
+          EVRInitError =
+    308;
+pub const EVRInitError_EVRInitError_VRInitError_Compositor_Failed:
+          EVRInitError =
+    400;
+pub const EVRInitError_EVRInitError_VRInitError_Compositor_D3D11HardwareRequired:
+          EVRInitError =
+    401;
+pub const EVRInitError_EVRInitError_VRInitError_Compositor_FirmwareRequiresUpdate:
+          EVRInitError =
+    402;
+pub const EVRInitError_EVRInitError_VRInitError_Compositor_OverlayInitFailed:
+          EVRInitError =
+    403;
+pub const EVRInitError_EVRInitError_VRInitError_Compositor_ScreenshotsInitFailed:
+          EVRInitError =
+    404;
+pub const EVRInitError_EVRInitError_VRInitError_VendorSpecific_UnableToConnectToOculusRuntime:
+          EVRInitError =
+    1000;
+pub const EVRInitError_EVRInitError_VRInitError_VendorSpecific_HmdFound_CantOpenDevice:
+          EVRInitError =
+    1101;
+pub const EVRInitError_EVRInitError_VRInitError_VendorSpecific_HmdFound_UnableToRequestConfigStart:
+          EVRInitError =
+    1102;
+pub const EVRInitError_EVRInitError_VRInitError_VendorSpecific_HmdFound_NoStoredConfig:
+          EVRInitError =
+    1103;
+pub const EVRInitError_EVRInitError_VRInitError_VendorSpecific_HmdFound_ConfigTooBig:
+          EVRInitError =
+    1104;
+pub const EVRInitError_EVRInitError_VRInitError_VendorSpecific_HmdFound_ConfigTooSmall:
+          EVRInitError =
+    1105;
+pub const EVRInitError_EVRInitError_VRInitError_VendorSpecific_HmdFound_UnableToInitZLib:
+          EVRInitError =
+    1106;
+pub const EVRInitError_EVRInitError_VRInitError_VendorSpecific_HmdFound_CantReadFirmwareVersion:
+          EVRInitError =
+    1107;
+pub const EVRInitError_EVRInitError_VRInitError_VendorSpecific_HmdFound_UnableToSendUserDataStart:
+          EVRInitError =
+    1108;
+pub const EVRInitError_EVRInitError_VRInitError_VendorSpecific_HmdFound_UnableToGetUserDataStart:
+          EVRInitError =
+    1109;
+pub const EVRInitError_EVRInitError_VRInitError_VendorSpecific_HmdFound_UnableToGetUserDataNext:
+          EVRInitError =
+    1110;
+pub const EVRInitError_EVRInitError_VRInitError_VendorSpecific_HmdFound_UserDataAddressRange:
+          EVRInitError =
+    1111;
+pub const EVRInitError_EVRInitError_VRInitError_VendorSpecific_HmdFound_UserDataError:
+          EVRInitError =
+    1112;
+pub const EVRInitError_EVRInitError_VRInitError_VendorSpecific_HmdFound_ConfigFailedSanityCheck:
+          EVRInitError =
+    1113;
+pub const EVRInitError_EVRInitError_VRInitError_Steam_SteamInstallationNotFound:
+          EVRInitError =
+    2000;
+pub type EVRInitError = ::std::os::raw::c_uint;
+pub const EVRScreenshotType_EVRScreenshotType_VRScreenshotType_None:
+          EVRScreenshotType =
+    0;
+pub const EVRScreenshotType_EVRScreenshotType_VRScreenshotType_Mono:
+          EVRScreenshotType =
+    1;
+pub const EVRScreenshotType_EVRScreenshotType_VRScreenshotType_Stereo:
+          EVRScreenshotType =
+    2;
+pub const EVRScreenshotType_EVRScreenshotType_VRScreenshotType_Cubemap:
+          EVRScreenshotType =
+    3;
+pub const EVRScreenshotType_EVRScreenshotType_VRScreenshotType_MonoPanorama:
+          EVRScreenshotType =
+    4;
+pub const EVRScreenshotType_EVRScreenshotType_VRScreenshotType_StereoPanorama:
+          EVRScreenshotType =
+    5;
+pub type EVRScreenshotType = ::std::os::raw::c_uint;
+pub const EVRScreenshotPropertyFilenames_EVRScreenshotPropertyFilenames_VRScreenshotPropertyFilenames_Preview:
+          EVRScreenshotPropertyFilenames =
+    0;
+pub const EVRScreenshotPropertyFilenames_EVRScreenshotPropertyFilenames_VRScreenshotPropertyFilenames_VR:
+          EVRScreenshotPropertyFilenames =
+    1;
+pub type EVRScreenshotPropertyFilenames = ::std::os::raw::c_uint;
+pub const EVRTrackedCameraError_EVRTrackedCameraError_VRTrackedCameraError_None:
+          EVRTrackedCameraError =
+    0;
+pub const EVRTrackedCameraError_EVRTrackedCameraError_VRTrackedCameraError_OperationFailed:
+          EVRTrackedCameraError =
+    100;
+pub const EVRTrackedCameraError_EVRTrackedCameraError_VRTrackedCameraError_InvalidHandle:
+          EVRTrackedCameraError =
+    101;
+pub const EVRTrackedCameraError_EVRTrackedCameraError_VRTrackedCameraError_InvalidFrameHeaderVersion:
+          EVRTrackedCameraError =
+    102;
+pub const EVRTrackedCameraError_EVRTrackedCameraError_VRTrackedCameraError_OutOfHandles:
+          EVRTrackedCameraError =
+    103;
+pub const EVRTrackedCameraError_EVRTrackedCameraError_VRTrackedCameraError_IPCFailure:
+          EVRTrackedCameraError =
+    104;
+pub const EVRTrackedCameraError_EVRTrackedCameraError_VRTrackedCameraError_NotSupportedForThisDevice:
+          EVRTrackedCameraError =
+    105;
+pub const EVRTrackedCameraError_EVRTrackedCameraError_VRTrackedCameraError_SharedMemoryFailure:
+          EVRTrackedCameraError =
+    106;
+pub const EVRTrackedCameraError_EVRTrackedCameraError_VRTrackedCameraError_FrameBufferingFailure:
+          EVRTrackedCameraError =
+    107;
+pub const EVRTrackedCameraError_EVRTrackedCameraError_VRTrackedCameraError_StreamSetupFailure:
+          EVRTrackedCameraError =
+    108;
+pub const EVRTrackedCameraError_EVRTrackedCameraError_VRTrackedCameraError_InvalidGLTextureId:
+          EVRTrackedCameraError =
+    109;
+pub const EVRTrackedCameraError_EVRTrackedCameraError_VRTrackedCameraError_InvalidSharedTextureHandle:
+          EVRTrackedCameraError =
+    110;
+pub const EVRTrackedCameraError_EVRTrackedCameraError_VRTrackedCameraError_FailedToGetGLTextureId:
+          EVRTrackedCameraError =
+    111;
+pub const EVRTrackedCameraError_EVRTrackedCameraError_VRTrackedCameraError_SharedTextureFailure:
+          EVRTrackedCameraError =
+    112;
+pub const EVRTrackedCameraError_EVRTrackedCameraError_VRTrackedCameraError_NoFrameAvailable:
+          EVRTrackedCameraError =
+    113;
+pub const EVRTrackedCameraError_EVRTrackedCameraError_VRTrackedCameraError_InvalidArgument:
+          EVRTrackedCameraError =
+    114;
+pub const EVRTrackedCameraError_EVRTrackedCameraError_VRTrackedCameraError_InvalidFrameBufferSize:
+          EVRTrackedCameraError =
+    115;
+pub type EVRTrackedCameraError = ::std::os::raw::c_uint;
+pub const EVRTrackedCameraFrameType_EVRTrackedCameraFrameType_VRTrackedCameraFrameType_Distorted:
+          EVRTrackedCameraFrameType =
+    0;
+pub const EVRTrackedCameraFrameType_EVRTrackedCameraFrameType_VRTrackedCameraFrameType_Undistorted:
+          EVRTrackedCameraFrameType =
+    1;
+pub const EVRTrackedCameraFrameType_EVRTrackedCameraFrameType_VRTrackedCameraFrameType_MaximumUndistorted:
+          EVRTrackedCameraFrameType =
+    2;
+pub const EVRTrackedCameraFrameType_EVRTrackedCameraFrameType_MAX_CAMERA_FRAME_TYPES:
+          EVRTrackedCameraFrameType =
+    3;
+pub type EVRTrackedCameraFrameType = ::std::os::raw::c_uint;
+pub const EVRApplicationError_EVRApplicationError_VRApplicationError_None:
+          EVRApplicationError =
+    0;
+pub const EVRApplicationError_EVRApplicationError_VRApplicationError_AppKeyAlreadyExists:
+          EVRApplicationError =
+    100;
+pub const EVRApplicationError_EVRApplicationError_VRApplicationError_NoManifest:
+          EVRApplicationError =
+    101;
+pub const EVRApplicationError_EVRApplicationError_VRApplicationError_NoApplication:
+          EVRApplicationError =
+    102;
+pub const EVRApplicationError_EVRApplicationError_VRApplicationError_InvalidIndex:
+          EVRApplicationError =
+    103;
+pub const EVRApplicationError_EVRApplicationError_VRApplicationError_UnknownApplication:
+          EVRApplicationError =
+    104;
+pub const EVRApplicationError_EVRApplicationError_VRApplicationError_IPCFailed:
+          EVRApplicationError =
+    105;
+pub const EVRApplicationError_EVRApplicationError_VRApplicationError_ApplicationAlreadyRunning:
+          EVRApplicationError =
+    106;
+pub const EVRApplicationError_EVRApplicationError_VRApplicationError_InvalidManifest:
+          EVRApplicationError =
+    107;
+pub const EVRApplicationError_EVRApplicationError_VRApplicationError_InvalidApplication:
+          EVRApplicationError =
+    108;
+pub const EVRApplicationError_EVRApplicationError_VRApplicationError_LaunchFailed:
+          EVRApplicationError =
+    109;
+pub const EVRApplicationError_EVRApplicationError_VRApplicationError_ApplicationAlreadyStarting:
+          EVRApplicationError =
+    110;
+pub const EVRApplicationError_EVRApplicationError_VRApplicationError_LaunchInProgress:
+          EVRApplicationError =
+    111;
+pub const EVRApplicationError_EVRApplicationError_VRApplicationError_OldApplicationQuitting:
+          EVRApplicationError =
+    112;
+pub const EVRApplicationError_EVRApplicationError_VRApplicationError_TransitionAborted:
+          EVRApplicationError =
+    113;
+pub const EVRApplicationError_EVRApplicationError_VRApplicationError_IsTemplate:
+          EVRApplicationError =
+    114;
+pub const EVRApplicationError_EVRApplicationError_VRApplicationError_BufferTooSmall:
+          EVRApplicationError =
+    200;
+pub const EVRApplicationError_EVRApplicationError_VRApplicationError_PropertyNotSet:
+          EVRApplicationError =
+    201;
+pub const EVRApplicationError_EVRApplicationError_VRApplicationError_UnknownProperty:
+          EVRApplicationError =
+    202;
+pub const EVRApplicationError_EVRApplicationError_VRApplicationError_InvalidParameter:
+          EVRApplicationError =
+    203;
+pub type EVRApplicationError = ::std::os::raw::c_uint;
+pub const EVRApplicationProperty_EVRApplicationProperty_VRApplicationProperty_Name_String:
+          EVRApplicationProperty =
+    0;
+pub const EVRApplicationProperty_EVRApplicationProperty_VRApplicationProperty_LaunchType_String:
+          EVRApplicationProperty =
+    11;
+pub const EVRApplicationProperty_EVRApplicationProperty_VRApplicationProperty_WorkingDirectory_String:
+          EVRApplicationProperty =
+    12;
+pub const EVRApplicationProperty_EVRApplicationProperty_VRApplicationProperty_BinaryPath_String:
+          EVRApplicationProperty =
+    13;
+pub const EVRApplicationProperty_EVRApplicationProperty_VRApplicationProperty_Arguments_String:
+          EVRApplicationProperty =
+    14;
+pub const EVRApplicationProperty_EVRApplicationProperty_VRApplicationProperty_URL_String:
+          EVRApplicationProperty =
+    15;
+pub const EVRApplicationProperty_EVRApplicationProperty_VRApplicationProperty_Description_String:
+          EVRApplicationProperty =
+    50;
+pub const EVRApplicationProperty_EVRApplicationProperty_VRApplicationProperty_NewsURL_String:
+          EVRApplicationProperty =
+    51;
+pub const EVRApplicationProperty_EVRApplicationProperty_VRApplicationProperty_ImagePath_String:
+          EVRApplicationProperty =
+    52;
+pub const EVRApplicationProperty_EVRApplicationProperty_VRApplicationProperty_Source_String:
+          EVRApplicationProperty =
+    53;
+pub const EVRApplicationProperty_EVRApplicationProperty_VRApplicationProperty_IsDashboardOverlay_Bool:
+          EVRApplicationProperty =
+    60;
+pub const EVRApplicationProperty_EVRApplicationProperty_VRApplicationProperty_IsTemplate_Bool:
+          EVRApplicationProperty =
+    61;
+pub const EVRApplicationProperty_EVRApplicationProperty_VRApplicationProperty_IsInstanced_Bool:
+          EVRApplicationProperty =
+    62;
+pub const EVRApplicationProperty_EVRApplicationProperty_VRApplicationProperty_IsInternal_Bool:
+          EVRApplicationProperty =
+    63;
+pub const EVRApplicationProperty_EVRApplicationProperty_VRApplicationProperty_LastLaunchTime_Uint64:
+          EVRApplicationProperty =
+    70;
+pub type EVRApplicationProperty = ::std::os::raw::c_uint;
+pub const EVRApplicationTransitionState_EVRApplicationTransitionState_VRApplicationTransition_None:
+          EVRApplicationTransitionState =
+    0;
+pub const EVRApplicationTransitionState_EVRApplicationTransitionState_VRApplicationTransition_OldAppQuitSent:
+          EVRApplicationTransitionState =
+    10;
+pub const EVRApplicationTransitionState_EVRApplicationTransitionState_VRApplicationTransition_WaitingForExternalLaunch:
+          EVRApplicationTransitionState =
+    11;
+pub const EVRApplicationTransitionState_EVRApplicationTransitionState_VRApplicationTransition_NewAppLaunched:
+          EVRApplicationTransitionState =
+    20;
+pub type EVRApplicationTransitionState = ::std::os::raw::c_uint;
+pub const ChaperoneCalibrationState_ChaperoneCalibrationState_OK:
+          ChaperoneCalibrationState =
+    1;
+pub const ChaperoneCalibrationState_ChaperoneCalibrationState_Warning:
+          ChaperoneCalibrationState =
+    100;
+pub const ChaperoneCalibrationState_ChaperoneCalibrationState_Warning_BaseStationMayHaveMoved:
+          ChaperoneCalibrationState =
+    101;
+pub const ChaperoneCalibrationState_ChaperoneCalibrationState_Warning_BaseStationRemoved:
+          ChaperoneCalibrationState =
+    102;
+pub const ChaperoneCalibrationState_ChaperoneCalibrationState_Warning_SeatedBoundsInvalid:
+          ChaperoneCalibrationState =
+    103;
+pub const ChaperoneCalibrationState_ChaperoneCalibrationState_Error:
+          ChaperoneCalibrationState =
+    200;
+pub const ChaperoneCalibrationState_ChaperoneCalibrationState_Error_BaseStationUninitialized:
+          ChaperoneCalibrationState =
+    201;
+pub const ChaperoneCalibrationState_ChaperoneCalibrationState_Error_BaseStationConflict:
+          ChaperoneCalibrationState =
+    202;
+pub const ChaperoneCalibrationState_ChaperoneCalibrationState_Error_PlayAreaInvalid:
+          ChaperoneCalibrationState =
+    203;
+pub const ChaperoneCalibrationState_ChaperoneCalibrationState_Error_CollisionBoundsInvalid:
+          ChaperoneCalibrationState =
+    204;
+pub type ChaperoneCalibrationState = ::std::os::raw::c_uint;
+pub const EChaperoneConfigFile_EChaperoneConfigFile_Live: EChaperoneConfigFile
+          =
+    1;
+pub const EChaperoneConfigFile_EChaperoneConfigFile_Temp: EChaperoneConfigFile
+          =
+    2;
+pub type EChaperoneConfigFile = ::std::os::raw::c_uint;
+pub const EChaperoneImportFlags_EChaperoneImportFlags_EChaperoneImport_BoundsOnly:
+          EChaperoneImportFlags =
+    1;
+pub type EChaperoneImportFlags = ::std::os::raw::c_uint;
+pub const EVRCompositorError_EVRCompositorError_VRCompositorError_None:
+          EVRCompositorError =
+    0;
+pub const EVRCompositorError_EVRCompositorError_VRCompositorError_RequestFailed:
+          EVRCompositorError =
+    1;
+pub const EVRCompositorError_EVRCompositorError_VRCompositorError_IncompatibleVersion:
+          EVRCompositorError =
+    100;
+pub const EVRCompositorError_EVRCompositorError_VRCompositorError_DoNotHaveFocus:
+          EVRCompositorError =
+    101;
+pub const EVRCompositorError_EVRCompositorError_VRCompositorError_InvalidTexture:
+          EVRCompositorError =
+    102;
+pub const EVRCompositorError_EVRCompositorError_VRCompositorError_IsNotSceneApplication:
+          EVRCompositorError =
+    103;
+pub const EVRCompositorError_EVRCompositorError_VRCompositorError_TextureIsOnWrongDevice:
+          EVRCompositorError =
+    104;
+pub const EVRCompositorError_EVRCompositorError_VRCompositorError_TextureUsesUnsupportedFormat:
+          EVRCompositorError =
+    105;
+pub const EVRCompositorError_EVRCompositorError_VRCompositorError_SharedTexturesNotSupported:
+          EVRCompositorError =
+    106;
+pub const EVRCompositorError_EVRCompositorError_VRCompositorError_IndexOutOfRange:
+          EVRCompositorError =
+    107;
+pub const EVRCompositorError_EVRCompositorError_VRCompositorError_AlreadySubmitted:
+          EVRCompositorError =
+    108;
+pub type EVRCompositorError = ::std::os::raw::c_uint;
+pub const VROverlayInputMethod_VROverlayInputMethod_None: VROverlayInputMethod
+          =
+    0;
+pub const VROverlayInputMethod_VROverlayInputMethod_Mouse:
+          VROverlayInputMethod =
+    1;
+pub type VROverlayInputMethod = ::std::os::raw::c_uint;
+pub const VROverlayTransformType_VROverlayTransformType_VROverlayTransform_Absolute:
+          VROverlayTransformType =
+    0;
+pub const VROverlayTransformType_VROverlayTransformType_VROverlayTransform_TrackedDeviceRelative:
+          VROverlayTransformType =
+    1;
+pub const VROverlayTransformType_VROverlayTransformType_VROverlayTransform_SystemOverlay:
+          VROverlayTransformType =
+    2;
+pub const VROverlayTransformType_VROverlayTransformType_VROverlayTransform_TrackedComponent:
+          VROverlayTransformType =
+    3;
+pub type VROverlayTransformType = ::std::os::raw::c_uint;
+pub const VROverlayFlags_VROverlayFlags_None: VROverlayFlags = 0;
+pub const VROverlayFlags_VROverlayFlags_Curved: VROverlayFlags = 1;
+pub const VROverlayFlags_VROverlayFlags_RGSS4X: VROverlayFlags = 2;
+pub const VROverlayFlags_VROverlayFlags_NoDashboardTab: VROverlayFlags = 3;
+pub const VROverlayFlags_VROverlayFlags_AcceptsGamepadEvents: VROverlayFlags =
+    4;
+pub const VROverlayFlags_VROverlayFlags_ShowGamepadFocus: VROverlayFlags = 5;
+pub const VROverlayFlags_VROverlayFlags_SendVRScrollEvents: VROverlayFlags =
+    6;
+pub const VROverlayFlags_VROverlayFlags_SendVRTouchpadEvents: VROverlayFlags =
+    7;
+pub const VROverlayFlags_VROverlayFlags_ShowTouchPadScrollWheel:
+          VROverlayFlags =
+    8;
+pub const VROverlayFlags_VROverlayFlags_TransferOwnershipToInternalProcess:
+          VROverlayFlags =
+    9;
+pub const VROverlayFlags_VROverlayFlags_SideBySide_Parallel: VROverlayFlags =
+    10;
+pub const VROverlayFlags_VROverlayFlags_SideBySide_Crossed: VROverlayFlags =
+    11;
+pub const VROverlayFlags_VROverlayFlags_Panorama: VROverlayFlags = 12;
+pub const VROverlayFlags_VROverlayFlags_StereoPanorama: VROverlayFlags = 13;
+pub const VROverlayFlags_VROverlayFlags_SortWithNonSceneOverlays:
+          VROverlayFlags =
+    14;
+pub const VROverlayFlags_VROverlayFlags_VisibleInDashboard: VROverlayFlags =
+    15;
+pub type VROverlayFlags = ::std::os::raw::c_uint;
+pub const VRMessageOverlayResponse_VRMessageOverlayResponse_ButtonPress_0:
+          VRMessageOverlayResponse =
+    0;
+pub const VRMessageOverlayResponse_VRMessageOverlayResponse_ButtonPress_1:
+          VRMessageOverlayResponse =
+    1;
+pub const VRMessageOverlayResponse_VRMessageOverlayResponse_ButtonPress_2:
+          VRMessageOverlayResponse =
+    2;
+pub const VRMessageOverlayResponse_VRMessageOverlayResponse_ButtonPress_3:
+          VRMessageOverlayResponse =
+    3;
+pub const VRMessageOverlayResponse_VRMessageOverlayResponse_CouldntFindSystemOverlay:
+          VRMessageOverlayResponse =
+    4;
+pub const VRMessageOverlayResponse_VRMessageOverlayResponse_CouldntFindOrCreateClientOverlay:
+          VRMessageOverlayResponse =
+    5;
+pub const VRMessageOverlayResponse_VRMessageOverlayResponse_ApplicationQuit:
+          VRMessageOverlayResponse =
+    6;
+pub type VRMessageOverlayResponse = ::std::os::raw::c_uint;
+pub const EGamepadTextInputMode_EGamepadTextInputMode_k_EGamepadTextInputModeNormal:
+          EGamepadTextInputMode =
+    0;
+pub const EGamepadTextInputMode_EGamepadTextInputMode_k_EGamepadTextInputModePassword:
+          EGamepadTextInputMode =
+    1;
+pub const EGamepadTextInputMode_EGamepadTextInputMode_k_EGamepadTextInputModeSubmit:
+          EGamepadTextInputMode =
+    2;
+pub type EGamepadTextInputMode = ::std::os::raw::c_uint;
+pub const EGamepadTextInputLineMode_EGamepadTextInputLineMode_k_EGamepadTextInputLineModeSingleLine:
+          EGamepadTextInputLineMode =
+    0;
+pub const EGamepadTextInputLineMode_EGamepadTextInputLineMode_k_EGamepadTextInputLineModeMultipleLines:
+          EGamepadTextInputLineMode =
+    1;
+pub type EGamepadTextInputLineMode = ::std::os::raw::c_uint;
+pub const EOverlayDirection_EOverlayDirection_OverlayDirection_Up:
+          EOverlayDirection =
+    0;
+pub const EOverlayDirection_EOverlayDirection_OverlayDirection_Down:
+          EOverlayDirection =
+    1;
+pub const EOverlayDirection_EOverlayDirection_OverlayDirection_Left:
+          EOverlayDirection =
+    2;
+pub const EOverlayDirection_EOverlayDirection_OverlayDirection_Right:
+          EOverlayDirection =
+    3;
+pub const EOverlayDirection_EOverlayDirection_OverlayDirection_Count:
+          EOverlayDirection =
+    4;
+pub type EOverlayDirection = ::std::os::raw::c_uint;
+pub const EVROverlayIntersectionMaskPrimitiveType_EVROverlayIntersectionMaskPrimitiveType_OverlayIntersectionPrimitiveType_Rectangle:
+          EVROverlayIntersectionMaskPrimitiveType =
+    0;
+pub const EVROverlayIntersectionMaskPrimitiveType_EVROverlayIntersectionMaskPrimitiveType_OverlayIntersectionPrimitiveType_Circle:
+          EVROverlayIntersectionMaskPrimitiveType =
+    1;
+pub type EVROverlayIntersectionMaskPrimitiveType = ::std::os::raw::c_uint;
+pub const EVRRenderModelError_EVRRenderModelError_VRRenderModelError_None:
+          EVRRenderModelError =
+    0;
+pub const EVRRenderModelError_EVRRenderModelError_VRRenderModelError_Loading:
+          EVRRenderModelError =
+    100;
+pub const EVRRenderModelError_EVRRenderModelError_VRRenderModelError_NotSupported:
+          EVRRenderModelError =
+    200;
+pub const EVRRenderModelError_EVRRenderModelError_VRRenderModelError_InvalidArg:
+          EVRRenderModelError =
+    300;
+pub const EVRRenderModelError_EVRRenderModelError_VRRenderModelError_InvalidModel:
+          EVRRenderModelError =
+    301;
+pub const EVRRenderModelError_EVRRenderModelError_VRRenderModelError_NoShapes:
+          EVRRenderModelError =
+    302;
+pub const EVRRenderModelError_EVRRenderModelError_VRRenderModelError_MultipleShapes:
+          EVRRenderModelError =
+    303;
+pub const EVRRenderModelError_EVRRenderModelError_VRRenderModelError_TooManyVertices:
+          EVRRenderModelError =
+    304;
+pub const EVRRenderModelError_EVRRenderModelError_VRRenderModelError_MultipleTextures:
+          EVRRenderModelError =
+    305;
+pub const EVRRenderModelError_EVRRenderModelError_VRRenderModelError_BufferTooSmall:
+          EVRRenderModelError =
+    306;
+pub const EVRRenderModelError_EVRRenderModelError_VRRenderModelError_NotEnoughNormals:
+          EVRRenderModelError =
+    307;
+pub const EVRRenderModelError_EVRRenderModelError_VRRenderModelError_NotEnoughTexCoords:
+          EVRRenderModelError =
+    308;
+pub const EVRRenderModelError_EVRRenderModelError_VRRenderModelError_InvalidTexture:
+          EVRRenderModelError =
+    400;
+pub type EVRRenderModelError = ::std::os::raw::c_uint;
+pub const EVRComponentProperty_EVRComponentProperty_VRComponentProperty_IsStatic:
+          EVRComponentProperty =
+    1;
+pub const EVRComponentProperty_EVRComponentProperty_VRComponentProperty_IsVisible:
+          EVRComponentProperty =
+    2;
+pub const EVRComponentProperty_EVRComponentProperty_VRComponentProperty_IsTouched:
+          EVRComponentProperty =
+    4;
+pub const EVRComponentProperty_EVRComponentProperty_VRComponentProperty_IsPressed:
+          EVRComponentProperty =
+    8;
+pub const EVRComponentProperty_EVRComponentProperty_VRComponentProperty_IsScrolled:
+          EVRComponentProperty =
+    16;
+pub type EVRComponentProperty = ::std::os::raw::c_uint;
+pub const EVRNotificationType_EVRNotificationType_Transient:
+          EVRNotificationType =
+    0;
+pub const EVRNotificationType_EVRNotificationType_Persistent:
+          EVRNotificationType =
+    1;
+pub const EVRNotificationType_EVRNotificationType_Transient_SystemWithUserValue:
+          EVRNotificationType =
+    2;
+pub type EVRNotificationType = ::std::os::raw::c_uint;
+pub const EVRNotificationStyle_EVRNotificationStyle_None: EVRNotificationStyle
+          =
+    0;
+pub const EVRNotificationStyle_EVRNotificationStyle_Application:
+          EVRNotificationStyle =
+    100;
+pub const EVRNotificationStyle_EVRNotificationStyle_Contact_Disabled:
+          EVRNotificationStyle =
+    200;
+pub const EVRNotificationStyle_EVRNotificationStyle_Contact_Enabled:
+          EVRNotificationStyle =
+    201;
+pub const EVRNotificationStyle_EVRNotificationStyle_Contact_Active:
+          EVRNotificationStyle =
+    202;
+pub type EVRNotificationStyle = ::std::os::raw::c_uint;
+pub const EVRSettingsError_EVRSettingsError_VRSettingsError_None:
+          EVRSettingsError =
+    0;
+pub const EVRSettingsError_EVRSettingsError_VRSettingsError_IPCFailed:
+          EVRSettingsError =
+    1;
+pub const EVRSettingsError_EVRSettingsError_VRSettingsError_WriteFailed:
+          EVRSettingsError =
+    2;
+pub const EVRSettingsError_EVRSettingsError_VRSettingsError_ReadFailed:
+          EVRSettingsError =
+    3;
+pub const EVRSettingsError_EVRSettingsError_VRSettingsError_JsonParseFailed:
+          EVRSettingsError =
+    4;
+pub const EVRSettingsError_EVRSettingsError_VRSettingsError_UnsetSettingHasNoDefault:
+          EVRSettingsError =
+    5;
+pub type EVRSettingsError = ::std::os::raw::c_uint;
+pub const EVRScreenshotError_EVRScreenshotError_VRScreenshotError_None:
+          EVRScreenshotError =
+    0;
+pub const EVRScreenshotError_EVRScreenshotError_VRScreenshotError_RequestFailed:
+          EVRScreenshotError =
+    1;
+pub const EVRScreenshotError_EVRScreenshotError_VRScreenshotError_IncompatibleVersion:
+          EVRScreenshotError =
+    100;
+pub const EVRScreenshotError_EVRScreenshotError_VRScreenshotError_NotFound:
+          EVRScreenshotError =
+    101;
+pub const EVRScreenshotError_EVRScreenshotError_VRScreenshotError_BufferTooSmall:
+          EVRScreenshotError =
+    102;
+pub const EVRScreenshotError_EVRScreenshotError_VRScreenshotError_ScreenshotAlreadyInProgress:
+          EVRScreenshotError =
+    108;
+pub type EVRScreenshotError = ::std::os::raw::c_uint;
 pub type TrackedDeviceIndex_t = u32;
 pub type VRNotificationId = u32;
 pub type VROverlayHandle_t = u64;
@@ -7265,6 +8134,39 @@ extern "C" {
 extern "C" {
     pub fn VR_GetVRInitErrorAsEnglishDescription(error: EVRInitError)
      -> *const ::std::os::raw::c_char;
+}
+extern "C" {
+    pub fn VR_IsInterfaceVersionValid(pchInterfaceVersion:
+                                          *const ::std::os::raw::c_char)
+     -> bool;
+}
+#[repr(C)]
+#[derive(Debug, Copy)]
+pub struct VREvent_Keyboard_t_real {
+    pub cNewInput: [::std::os::raw::c_char; 8usize],
+    pub uUserValue: u64,
+}
+#[test]
+fn bindgen_test_layout_VREvent_Keyboard_t_real() {
+    assert_eq!(::std::mem::size_of::<VREvent_Keyboard_t_real>() , 16usize ,
+               concat ! (
+               "Size of: " , stringify ! ( VREvent_Keyboard_t_real ) ));
+    assert_eq! (::std::mem::align_of::<VREvent_Keyboard_t_real>() , 8usize ,
+                concat ! (
+                "Alignment of " , stringify ! ( VREvent_Keyboard_t_real ) ));
+    assert_eq! (unsafe {
+                & ( * ( 0 as * const VREvent_Keyboard_t_real ) ) . cNewInput
+                as * const _ as usize } , 0usize , concat ! (
+                "Alignment of field: " , stringify ! ( VREvent_Keyboard_t_real
+                ) , "::" , stringify ! ( cNewInput ) ));
+    assert_eq! (unsafe {
+                & ( * ( 0 as * const VREvent_Keyboard_t_real ) ) . uUserValue
+                as * const _ as usize } , 8usize , concat ! (
+                "Alignment of field: " , stringify ! ( VREvent_Keyboard_t_real
+                ) , "::" , stringify ! ( uUserValue ) ));
+}
+impl Clone for VREvent_Keyboard_t_real {
+    fn clone(&self) -> Self { *self }
 }
 #[repr(C)]
 #[derive(Debug, Copy)]

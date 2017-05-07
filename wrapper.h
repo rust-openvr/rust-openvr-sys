@@ -1,4 +1,4 @@
-// Generate bindings by running: bindgen --no-unstable-rust wrapper.h -o lib.rs
+// Generate bindings by running: bindgen --constified-enum '.*' --no-unstable-rust wrapper.h -o lib.rs
 
 #include "openvr/headers/openvr_capi.h"
 
@@ -13,3 +13,12 @@ S_API intptr_t VR_GetGenericInterface( const char *pchInterfaceVersion, EVRInitE
 S_API bool VR_IsRuntimeInstalled();
 S_API const char * VR_GetVRInitErrorAsSymbol( EVRInitError error );
 S_API const char * VR_GetVRInitErrorAsEnglishDescription( EVRInitError error );
+// Taken from openvr.h
+S_API bool VR_IsInterfaceVersionValid( const char *pchInterfaceVersion );
+
+// Taken from openvr.h; use to work around broken ABI for this event in the C header
+struct VREvent_Keyboard_t_real
+{
+	char cNewInput[8];	// Up to 11 bytes of new input
+	uint64_t uUserValue;	// Possible flags about the new input
+};
