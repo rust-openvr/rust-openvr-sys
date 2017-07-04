@@ -9,8 +9,16 @@ authors = [
 license = "MIT"
 description = "Raw unsafe system binding for openvr"
 repository = "https://github.com/rust-openvr/rust-openvr-sys"
-
+exclude = [
+    "openvr/samples/*",
+    "openvr/bin/*",
+    "openvr/lib/*",
+    "openvr/controller_callouts/*",
+]
 build = "build.rs"
+
+[build-dependencies]
+cmake = "0.1"
 
 [lib]
 name = "openvr_sys"
