@@ -203,6 +203,7 @@ pub type intmax_t = __intmax_t;
 pub type uintmax_t = __uintmax_t;
 pub type PropertyContainerHandle_t = u64;
 pub type PropertyTypeTag_t = u32;
+pub const k_nDriverNone: ::std::os::raw::c_uint = 4294967295;
 pub const k_unMaxDriverDebugResponseSize: ::std::os::raw::c_uint = 32768;
 pub const k_unTrackedDeviceIndex_Hmd: ::std::os::raw::c_uint = 0;
 pub const k_unMaxTrackedDeviceCount: ::std::os::raw::c_uint = 16;
@@ -226,7 +227,7 @@ pub const k_unMaxPropertyStringSize: ::std::os::raw::c_uint = 32768;
 pub const k_unControllerStateAxisCount: ::std::os::raw::c_uint = 5;
 pub const k_ulOverlayHandleInvalid: ::std::os::raw::c_ulong = 0;
 pub const k_unScreenshotHandleInvalid: ::std::os::raw::c_uint = 0;
-pub const IVRSystem_Version: &'static [u8; 14usize] = b"IVRSystem_015\x00";
+pub const IVRSystem_Version: &'static [u8; 14usize] = b"IVRSystem_016\x00";
 pub const IVRExtendedDisplay_Version: &'static [u8; 23usize] =
     b"IVRExtendedDisplay_001\x00";
 pub const IVRTrackedCamera_Version: &'static [u8; 21usize] =
@@ -321,8 +322,8 @@ pub const k_pch_SteamVR_BaseStationPowerManagement_Bool:
     b"basestationPowerManagement\x00";
 pub const k_pch_SteamVR_NeverKillProcesses_Bool: &'static [u8; 19usize] =
     b"neverKillProcesses\x00";
-pub const k_pch_SteamVR_RenderTargetMultiplier_Float: &'static [u8; 23usize] =
-    b"renderTargetMultiplier\x00";
+pub const k_pch_SteamVR_SupersampleScale_Float: &'static [u8; 17usize] =
+    b"supersampleScale\x00";
 pub const k_pch_SteamVR_AllowAsyncReprojection_Bool: &'static [u8; 23usize] =
     b"allowAsyncReprojection\x00";
 pub const k_pch_SteamVR_AllowReprojection_Bool: &'static [u8; 29usize] =
@@ -350,8 +351,6 @@ pub const k_pch_SteamVR_StartOverlayAppsFromDashboard_Bool:
     b"startOverlayAppsFromDashboard\x00";
 pub const k_pch_SteamVR_EnableHomeApp: &'static [u8; 14usize] =
     b"enableHomeApp\x00";
-pub const k_pch_SteamVR_SetInitialDefaultHomeApp: &'static [u8; 25usize] =
-    b"setInitialDefaultHomeApp\x00";
 pub const k_pch_SteamVR_CycleBackgroundImageTimeSec_Int32:
           &'static [u8; 28usize] =
     b"CycleBackgroundImageTimeSec\x00";
@@ -359,6 +358,9 @@ pub const k_pch_SteamVR_RetailDemo_Bool: &'static [u8; 11usize] =
     b"retailDemo\x00";
 pub const k_pch_SteamVR_IpdOffset_Float: &'static [u8; 10usize] =
     b"ipdOffset\x00";
+pub const k_pch_SteamVR_AllowSupersampleFiltering_Bool: &'static [u8; 26usize]
+          =
+    b"allowSupersampleFiltering\x00";
 pub const k_pch_Lighthouse_Section: &'static [u8; 18usize] =
     b"driver_lighthouse\x00";
 pub const k_pch_Lighthouse_DisableIMU_Bool: &'static [u8; 11usize] =
@@ -428,6 +430,8 @@ pub const k_pch_Perf_SaveTimingsOnExit_Bool: &'static [u8; 18usize] =
     b"saveTimingsOnExit\x00";
 pub const k_pch_Perf_TestData_Float: &'static [u8; 13usize] =
     b"perfTestData\x00";
+pub const k_pch_Perf_LinuxGPUProfiling_Bool: &'static [u8; 18usize] =
+    b"linuxGPUProfiling\x00";
 pub const k_pch_CollisionBounds_Section: &'static [u8; 16usize] =
     b"collisionBounds\x00";
 pub const k_pch_CollisionBounds_Style_Int32: &'static [u8; 21usize] =
@@ -505,6 +509,8 @@ pub const IVRScreenshots_Version: &'static [u8; 19usize] =
     b"IVRScreenshots_001\x00";
 pub const IVRResources_Version: &'static [u8; 17usize] =
     b"IVRResources_001\x00";
+pub const IVRDriverManager_Version: &'static [u8; 21usize] =
+    b"IVRDriverManager_001\x00";
 pub const EVREye_EVREye_Eye_Left: EVREye = 0;
 pub const EVREye_EVREye_Eye_Right: EVREye = 1;
 pub type EVREye = ::std::os::raw::c_uint;
@@ -813,6 +819,15 @@ pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayMCImageData_
 pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_SecondsFromPhotonsToVblank_Float:
           ETrackedDeviceProperty =
     2042;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DriverDirectModeSendsVsyncEvents_Bool:
+          ETrackedDeviceProperty =
+    2043;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_DisplayDebugMode_Bool:
+          ETrackedDeviceProperty =
+    2044;
+pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_GraphicsAdapterLuid_Uint64:
+          ETrackedDeviceProperty =
+    2045;
 pub const ETrackedDeviceProperty_ETrackedDeviceProperty_Prop_AttachedDeviceId_String:
           ETrackedDeviceProperty =
     3000;
@@ -1156,6 +1171,9 @@ pub const EVREventType_EVREventType_VREvent_EnvironmentSettingsHaveChanged:
 pub const EVREventType_EVREventType_VREvent_PowerSettingsHaveChanged:
           EVREventType =
     855;
+pub const EVREventType_EVREventType_VREvent_EnableHomeAppSettingsHaveChanged:
+          EVREventType =
+    856;
 pub const EVREventType_EVREventType_VREvent_StatusUpdate: EVREventType = 900;
 pub const EVREventType_EVREventType_VREvent_MCImageUpdated: EVREventType =
     1000;
@@ -1556,6 +1574,12 @@ pub const EVRInitError_EVRInitError_VRInitError_Init_VRDashboardNotFound:
 pub const EVRInitError_EVRInitError_VRInitError_Init_VRDashboardStartupFailed:
           EVRInitError =
     134;
+pub const EVRInitError_EVRInitError_VRInitError_Init_VRHomeNotFound:
+          EVRInitError =
+    135;
+pub const EVRInitError_EVRInitError_VRInitError_Init_VRHomeStartupFailed:
+          EVRInitError =
+    136;
 pub const EVRInitError_EVRInitError_VRInitError_Driver_Failed: EVRInitError =
     200;
 pub const EVRInitError_EVRInitError_VRInitError_Driver_Unknown: EVRInitError =
@@ -1631,6 +1655,9 @@ pub const EVRInitError_EVRInitError_VRInitError_Compositor_OverlayInitFailed:
 pub const EVRInitError_EVRInitError_VRInitError_Compositor_ScreenshotsInitFailed:
           EVRInitError =
     404;
+pub const EVRInitError_EVRInitError_VRInitError_Compositor_UnableToCreateDevice:
+          EVRInitError =
+    405;
 pub const EVRInitError_EVRInitError_VRInitError_VendorSpecific_UnableToConnectToOculusRuntime:
           EVRInitError =
     1000;
@@ -1963,6 +1990,9 @@ pub const EVRCompositorError_EVRCompositorError_VRCompositorError_IndexOutOfRang
 pub const EVRCompositorError_EVRCompositorError_VRCompositorError_AlreadySubmitted:
           EVRCompositorError =
     108;
+pub const EVRCompositorError_EVRCompositorError_VRCompositorError_InvalidBounds:
+          EVRCompositorError =
+    109;
 pub type EVRCompositorError = ::std::os::raw::c_uint;
 pub const VROverlayInputMethod_VROverlayInputMethod_None: VROverlayInputMethod
           =
@@ -2202,6 +2232,7 @@ pub type glSharedTextureHandle_t = *mut ::std::os::raw::c_void;
 pub type glInt_t = i32;
 pub type glUInt_t = u32;
 pub type SharedTextureHandle_t = u64;
+pub type DriverId_t = u32;
 pub type TrackedCameraHandle_t = u64;
 pub type ScreenshotHandle_t = u32;
 pub type VRComponentProperties = u32;
@@ -4293,10 +4324,11 @@ pub struct COpenVRContext {
     pub m_pVRApplications: isize,
     pub m_pVRTrackedCamera: isize,
     pub m_pVRScreenshots: isize,
+    pub m_pVRDriverManager: isize,
 }
 #[test]
 fn bindgen_test_layout_COpenVRContext() {
-    assert_eq!(::std::mem::size_of::<COpenVRContext>() , 96usize , concat ! (
+    assert_eq!(::std::mem::size_of::<COpenVRContext>() , 104usize , concat ! (
                "Size of: " , stringify ! ( COpenVRContext ) ));
     assert_eq! (::std::mem::align_of::<COpenVRContext>() , 8usize , concat ! (
                 "Alignment of " , stringify ! ( COpenVRContext ) ));
@@ -4360,6 +4392,11 @@ fn bindgen_test_layout_COpenVRContext() {
                 * const _ as usize } , 88usize , concat ! (
                 "Alignment of field: " , stringify ! ( COpenVRContext ) , "::"
                 , stringify ! ( m_pVRScreenshots ) ));
+    assert_eq! (unsafe {
+                & ( * ( 0 as * const COpenVRContext ) ) . m_pVRDriverManager
+                as * const _ as usize } , 96usize , concat ! (
+                "Alignment of field: " , stringify ! ( COpenVRContext ) , "::"
+                , stringify ! ( m_pVRDriverManager ) ));
 }
 impl Clone for COpenVRContext {
     fn clone(&self) -> Self { *self }
@@ -4613,6 +4650,10 @@ pub struct VR_IVRSystem_FnTable {
                                                        -> i32>,
     pub GetDXGIOutputInfo: ::std::option::Option<unsafe extern "C" fn(pnAdapterIndex:
                                                                           *mut i32)>,
+    pub GetOutputDevice: ::std::option::Option<unsafe extern "C" fn(pnDevice:
+                                                                        *mut u64,
+                                                                    textureType:
+                                                                        ETextureType)>,
     pub IsDisplayOnDesktop: ::std::option::Option<unsafe extern "C" fn()
                                                       -> bool>,
     pub SetDisplayVisibility: ::std::option::Option<unsafe extern "C" fn(bIsVisibleOnDesktop:
@@ -4797,7 +4838,7 @@ pub struct VR_IVRSystem_FnTable {
 }
 #[test]
 fn bindgen_test_layout_VR_IVRSystem_FnTable() {
-    assert_eq!(::std::mem::size_of::<VR_IVRSystem_FnTable>() , 352usize ,
+    assert_eq!(::std::mem::size_of::<VR_IVRSystem_FnTable>() , 360usize ,
                concat ! ( "Size of: " , stringify ! ( VR_IVRSystem_FnTable )
                ));
     assert_eq! (::std::mem::align_of::<VR_IVRSystem_FnTable>() , 8usize ,
@@ -4853,221 +4894,226 @@ fn bindgen_test_layout_VR_IVRSystem_FnTable() {
                 , "::" , stringify ! ( GetDXGIOutputInfo ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
-                IsDisplayOnDesktop as * const _ as usize } , 64usize , concat
+                GetOutputDevice as * const _ as usize } , 64usize , concat ! (
+                "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
+                , "::" , stringify ! ( GetOutputDevice ) ));
+    assert_eq! (unsafe {
+                & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
+                IsDisplayOnDesktop as * const _ as usize } , 72usize , concat
                 ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( IsDisplayOnDesktop ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
-                SetDisplayVisibility as * const _ as usize } , 72usize ,
+                SetDisplayVisibility as * const _ as usize } , 80usize ,
                 concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( SetDisplayVisibility ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
                 GetDeviceToAbsoluteTrackingPose as * const _ as usize } ,
-                80usize , concat ! (
+                88usize , concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( GetDeviceToAbsoluteTrackingPose ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
-                ResetSeatedZeroPose as * const _ as usize } , 88usize , concat
+                ResetSeatedZeroPose as * const _ as usize } , 96usize , concat
                 ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( ResetSeatedZeroPose ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
                 GetSeatedZeroPoseToStandingAbsoluteTrackingPose as * const _
-                as usize } , 96usize , concat ! (
+                as usize } , 104usize , concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! (
                 GetSeatedZeroPoseToStandingAbsoluteTrackingPose ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
                 GetRawZeroPoseToStandingAbsoluteTrackingPose as * const _ as
-                usize } , 104usize , concat ! (
+                usize } , 112usize , concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! (
                 GetRawZeroPoseToStandingAbsoluteTrackingPose ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
                 GetSortedTrackedDeviceIndicesOfClass as * const _ as usize } ,
-                112usize , concat ! (
+                120usize , concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( GetSortedTrackedDeviceIndicesOfClass )
                 ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
                 GetTrackedDeviceActivityLevel as * const _ as usize } ,
-                120usize , concat ! (
+                128usize , concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( GetTrackedDeviceActivityLevel ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) . ApplyTransform
-                as * const _ as usize } , 128usize , concat ! (
+                as * const _ as usize } , 136usize , concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( ApplyTransform ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
                 GetTrackedDeviceIndexForControllerRole as * const _ as usize }
-                , 136usize , concat ! (
+                , 144usize , concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( GetTrackedDeviceIndexForControllerRole
                 ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
                 GetControllerRoleForTrackedDeviceIndex as * const _ as usize }
-                , 144usize , concat ! (
+                , 152usize , concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( GetControllerRoleForTrackedDeviceIndex
                 ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
-                GetTrackedDeviceClass as * const _ as usize } , 152usize ,
+                GetTrackedDeviceClass as * const _ as usize } , 160usize ,
                 concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( GetTrackedDeviceClass ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
-                IsTrackedDeviceConnected as * const _ as usize } , 160usize ,
+                IsTrackedDeviceConnected as * const _ as usize } , 168usize ,
                 concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( IsTrackedDeviceConnected ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
                 GetBoolTrackedDeviceProperty as * const _ as usize } ,
-                168usize , concat ! (
+                176usize , concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( GetBoolTrackedDeviceProperty ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
                 GetFloatTrackedDeviceProperty as * const _ as usize } ,
-                176usize , concat ! (
+                184usize , concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( GetFloatTrackedDeviceProperty ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
                 GetInt32TrackedDeviceProperty as * const _ as usize } ,
-                184usize , concat ! (
+                192usize , concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( GetInt32TrackedDeviceProperty ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
                 GetUint64TrackedDeviceProperty as * const _ as usize } ,
-                192usize , concat ! (
+                200usize , concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( GetUint64TrackedDeviceProperty ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
                 GetMatrix34TrackedDeviceProperty as * const _ as usize } ,
-                200usize , concat ! (
+                208usize , concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( GetMatrix34TrackedDeviceProperty ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
                 GetStringTrackedDeviceProperty as * const _ as usize } ,
-                208usize , concat ! (
+                216usize , concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( GetStringTrackedDeviceProperty ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
-                GetPropErrorNameFromEnum as * const _ as usize } , 216usize ,
+                GetPropErrorNameFromEnum as * const _ as usize } , 224usize ,
                 concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( GetPropErrorNameFromEnum ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) . PollNextEvent
-                as * const _ as usize } , 224usize , concat ! (
+                as * const _ as usize } , 232usize , concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( PollNextEvent ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
-                PollNextEventWithPose as * const _ as usize } , 232usize ,
+                PollNextEventWithPose as * const _ as usize } , 240usize ,
                 concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( PollNextEventWithPose ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
-                GetEventTypeNameFromEnum as * const _ as usize } , 240usize ,
+                GetEventTypeNameFromEnum as * const _ as usize } , 248usize ,
                 concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( GetEventTypeNameFromEnum ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
-                GetHiddenAreaMesh as * const _ as usize } , 248usize , concat
+                GetHiddenAreaMesh as * const _ as usize } , 256usize , concat
                 ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( GetHiddenAreaMesh ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
-                GetControllerState as * const _ as usize } , 256usize , concat
+                GetControllerState as * const _ as usize } , 264usize , concat
                 ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( GetControllerState ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
-                GetControllerStateWithPose as * const _ as usize } , 264usize
+                GetControllerStateWithPose as * const _ as usize } , 272usize
                 , concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( GetControllerStateWithPose ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
-                TriggerHapticPulse as * const _ as usize } , 272usize , concat
+                TriggerHapticPulse as * const _ as usize } , 280usize , concat
                 ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( TriggerHapticPulse ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
-                GetButtonIdNameFromEnum as * const _ as usize } , 280usize ,
+                GetButtonIdNameFromEnum as * const _ as usize } , 288usize ,
                 concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( GetButtonIdNameFromEnum ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
                 GetControllerAxisTypeNameFromEnum as * const _ as usize } ,
-                288usize , concat ! (
+                296usize , concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( GetControllerAxisTypeNameFromEnum ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
-                CaptureInputFocus as * const _ as usize } , 296usize , concat
+                CaptureInputFocus as * const _ as usize } , 304usize , concat
                 ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( CaptureInputFocus ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
-                ReleaseInputFocus as * const _ as usize } , 304usize , concat
+                ReleaseInputFocus as * const _ as usize } , 312usize , concat
                 ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( ReleaseInputFocus ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
                 IsInputFocusCapturedByAnotherProcess as * const _ as usize } ,
-                312usize , concat ! (
+                320usize , concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( IsInputFocusCapturedByAnotherProcess )
                 ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
-                DriverDebugRequest as * const _ as usize } , 320usize , concat
+                DriverDebugRequest as * const _ as usize } , 328usize , concat
                 ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( DriverDebugRequest ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
-                PerformFirmwareUpdate as * const _ as usize } , 328usize ,
+                PerformFirmwareUpdate as * const _ as usize } , 336usize ,
                 concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( PerformFirmwareUpdate ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
-                AcknowledgeQuit_Exiting as * const _ as usize } , 336usize ,
+                AcknowledgeQuit_Exiting as * const _ as usize } , 344usize ,
                 concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( AcknowledgeQuit_Exiting ) ));
     assert_eq! (unsafe {
                 & ( * ( 0 as * const VR_IVRSystem_FnTable ) ) .
-                AcknowledgeQuit_UserPrompt as * const _ as usize } , 344usize
+                AcknowledgeQuit_UserPrompt as * const _ as usize } , 352usize
                 , concat ! (
                 "Alignment of field: " , stringify ! ( VR_IVRSystem_FnTable )
                 , "::" , stringify ! ( AcknowledgeQuit_UserPrompt ) ));
@@ -8107,6 +8153,43 @@ fn bindgen_test_layout_VR_IVRResources_FnTable() {
                 ) , "::" , stringify ! ( GetResourceFullPath ) ));
 }
 impl Clone for VR_IVRResources_FnTable {
+    fn clone(&self) -> Self { *self }
+}
+#[repr(C)]
+#[derive(Debug, Copy)]
+pub struct VR_IVRDriverManager_FnTable {
+    pub GetDriverCount: ::std::option::Option<unsafe extern "C" fn() -> u32>,
+    pub GetDriverName: ::std::option::Option<unsafe extern "C" fn(nDriver:
+                                                                      DriverId_t,
+                                                                  pchValue:
+                                                                      *mut ::std::os::raw::c_char,
+                                                                  unBufferSize:
+                                                                      u32)
+                                                 -> u32>,
+}
+#[test]
+fn bindgen_test_layout_VR_IVRDriverManager_FnTable() {
+    assert_eq!(::std::mem::size_of::<VR_IVRDriverManager_FnTable>() , 16usize
+               , concat ! (
+               "Size of: " , stringify ! ( VR_IVRDriverManager_FnTable ) ));
+    assert_eq! (::std::mem::align_of::<VR_IVRDriverManager_FnTable>() , 8usize
+                , concat ! (
+                "Alignment of " , stringify ! ( VR_IVRDriverManager_FnTable )
+                ));
+    assert_eq! (unsafe {
+                & ( * ( 0 as * const VR_IVRDriverManager_FnTable ) ) .
+                GetDriverCount as * const _ as usize } , 0usize , concat ! (
+                "Alignment of field: " , stringify ! (
+                VR_IVRDriverManager_FnTable ) , "::" , stringify ! (
+                GetDriverCount ) ));
+    assert_eq! (unsafe {
+                & ( * ( 0 as * const VR_IVRDriverManager_FnTable ) ) .
+                GetDriverName as * const _ as usize } , 8usize , concat ! (
+                "Alignment of field: " , stringify ! (
+                VR_IVRDriverManager_FnTable ) , "::" , stringify ! (
+                GetDriverName ) ));
+}
+impl Clone for VR_IVRDriverManager_FnTable {
     fn clone(&self) -> Self { *self }
 }
 extern "C" {
