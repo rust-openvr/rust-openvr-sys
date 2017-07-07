@@ -1,4 +1,4 @@
-// Generate bindings by running: bindgen --constified-enum '.*' --no-unstable-rust wrapper.h -o lib.rs
+// Generate bindings by running: bindgen --constified-enum '.*' --no-prepend-enum-name wrapper.h -o lib.rs
 
 #include "openvr/headers/openvr_capi.h"
 
