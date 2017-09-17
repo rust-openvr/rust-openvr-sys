@@ -7974,6 +7974,49 @@ impl Clone for VREvent_Keyboard_t_real {
 }
 #[repr(C)]
 #[derive(Debug, Copy)]
+pub struct VRTextureWithPose_t_real {
+    pub handle: *mut ::std::os::raw::c_void,
+    pub eType: ETextureType,
+    pub eColorSpace: EColorSpace,
+    pub mDeviceToAbsoluteTracking: HmdMatrix34_t,
+}
+#[test]
+fn bindgen_test_layout_VRTextureWithPose_t_real() {
+    assert_eq!(::std::mem::size_of::<VRTextureWithPose_t_real>() , 64usize ,
+               concat ! (
+               "Size of: " , stringify ! ( VRTextureWithPose_t_real ) ));
+    assert_eq! (::std::mem::align_of::<VRTextureWithPose_t_real>() , 8usize ,
+                concat ! (
+                "Alignment of " , stringify ! ( VRTextureWithPose_t_real ) ));
+    assert_eq! (unsafe {
+                & ( * ( 0 as * const VRTextureWithPose_t_real ) ) . handle as
+                * const _ as usize } , 0usize , concat ! (
+                "Alignment of field: " , stringify ! (
+                VRTextureWithPose_t_real ) , "::" , stringify ! ( handle ) ));
+    assert_eq! (unsafe {
+                & ( * ( 0 as * const VRTextureWithPose_t_real ) ) . eType as *
+                const _ as usize } , 8usize , concat ! (
+                "Alignment of field: " , stringify ! (
+                VRTextureWithPose_t_real ) , "::" , stringify ! ( eType ) ));
+    assert_eq! (unsafe {
+                & ( * ( 0 as * const VRTextureWithPose_t_real ) ) .
+                eColorSpace as * const _ as usize } , 12usize , concat ! (
+                "Alignment of field: " , stringify ! (
+                VRTextureWithPose_t_real ) , "::" , stringify ! ( eColorSpace
+                ) ));
+    assert_eq! (unsafe {
+                & ( * ( 0 as * const VRTextureWithPose_t_real ) ) .
+                mDeviceToAbsoluteTracking as * const _ as usize } , 16usize ,
+                concat ! (
+                "Alignment of field: " , stringify ! (
+                VRTextureWithPose_t_real ) , "::" , stringify ! (
+                mDeviceToAbsoluteTracking ) ));
+}
+impl Clone for VRTextureWithPose_t_real {
+    fn clone(&self) -> Self { *self }
+}
+#[repr(C)]
+#[derive(Debug, Copy)]
 pub struct VkDevice_T {
     pub _address: u8,
 }

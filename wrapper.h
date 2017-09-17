@@ -22,3 +22,12 @@ struct VREvent_Keyboard_t_real
 	char cNewInput[8];	// Up to 11 bytes of new input
 	uint64_t uUserValue;	// Possible flags about the new input
 };
+
+// Taken from openvr.h; use to work around broken ABI for this type in the C header
+struct VRTextureWithPose_t_real
+{
+	void* handle; // See ETextureType definition above
+	ETextureType eType;
+	EColorSpace eColorSpace;
+	HmdMatrix34_t mDeviceToAbsoluteTracking; // Actual pose used to render scene textures.
+};
