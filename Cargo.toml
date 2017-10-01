@@ -10,6 +10,9 @@ authors = [
 license = "MIT"
 description = "Raw unsafe system binding for openvr"
 repository = "https://github.com/rust-openvr/rust-openvr-sys"
+keywords = ["vr", "vive", "steamvr"]
+categories = [ "hardware-support", "external-ffi-bindings" ]
+
 exclude = [
     "openvr/samples/*",
     "openvr/bin/*",
@@ -17,6 +20,9 @@ exclude = [
     "openvr/controller_callouts/*",
 ]
 build = "build.rs"
+
+[badges]
+maintenance = { status = "passively-maintained" }
 
 [build-dependencies]
 cmake = "0.1"
