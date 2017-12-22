@@ -7,6 +7,9 @@ fn main() {
     #[cfg(windows)]
     cfg.cxxflag("/DWIN32");
 
+    #[cfg(target_os="macos")]
+    cfg.define("BUILD_UNIVERSAL", "OFF");
+
     let dst = cfg.build();
     println!("cargo:rustc-link-search=native={}/lib", dst.display());
 
@@ -18,4 +21,7 @@ fn main() {
 
     #[cfg(target_os="linux")]
     println!("cargo:rustc-link-lib=stdc++");
+
+    #[cfg(target_os="macos")]
+    println!("cargo:rustc-link-lib=c++");
 }

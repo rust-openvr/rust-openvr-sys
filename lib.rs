@@ -3,3 +3,7 @@
          non_snake_case)]
 
 include!("bindings.rs");
+
+#[cfg(target_os="macos")]
+#[link(name = "Foundation", kind = "framework")]
+extern { }
