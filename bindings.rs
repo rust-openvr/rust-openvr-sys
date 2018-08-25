@@ -3060,6 +3060,7 @@ impl Clone for VRControllerAxis_t {
 }
 #[repr(C)]
 #[derive(Debug, Copy)]
+#[cfg_attr(unix, repr(packed))]
 pub struct VRControllerState_t {
     pub unPacketNum: u32,
     pub ulButtonPressed: u64,
@@ -3855,6 +3856,7 @@ impl Clone for RenderModel_Vertex_t {
 }
 #[repr(C)]
 #[derive(Debug, Copy)]
+#[cfg_attr(unix, repr(packed))]
 pub struct RenderModel_TextureMap_t {
     pub unWidth: u16,
     pub unHeight: u16,
@@ -3893,6 +3895,7 @@ impl Clone for RenderModel_TextureMap_t {
 }
 #[repr(C)]
 #[derive(Debug, Copy)]
+#[cfg_attr(unix, repr(packed))]
 pub struct RenderModel_t {
     pub rVertexData: *mut RenderModel_Vertex_t,
     pub unVertexCount: u32,
@@ -4196,6 +4199,7 @@ impl Clone for VREvent_Data_t {
 /// An event posted by the server to all running applications
 #[repr(C)]
 #[derive(Copy)]
+#[cfg_attr(unix, repr(packed))]
 pub struct VREvent_t {
     pub eventType: u32,
     pub trackedDeviceIndex: TrackedDeviceIndex_t,
