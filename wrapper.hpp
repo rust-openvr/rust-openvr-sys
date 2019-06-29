@@ -1,5 +1,3 @@
-// Generate bindings by running: bindgen --constified-enum '.*' --no-prepend-enum-name wrapper.h -o bindings.rs
-
 #include "openvr/headers/openvr_capi.h"
 
 // Expose symbols hidden in C API for some reason; see
