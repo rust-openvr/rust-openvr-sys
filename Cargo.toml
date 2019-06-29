@@ -26,7 +26,12 @@ maintenance = { status = "passively-maintained" }
 
 [build-dependencies]
 cmake = "0.1"
+bindgen = { version = "0.49", optional = true }
 
 [lib]
 name = "openvr_sys"
 path = "lib.rs"
+
+[features]
+default = []
+buildtime_bindgen = ["bindgen"]
