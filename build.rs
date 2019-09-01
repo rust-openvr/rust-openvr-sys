@@ -13,7 +13,12 @@ fn main() {
         config.define("BUILD_UNIVERSAL", "OFF");
     } else if target_os == "windows" {
         // Work around broken cmake build.
-        config.cxxflag("/DWIN32");
+        if "gnu" == env::var("CARGO_CFG_TARGET_ENV").unwrap() {
+            config.cxxflag("-DWIN32");
+            println!("cargo:rustc-link-lib=dylib=stdc++");
+        } else {
+            config.cxxflag("/DWIN32");
+        }
     }
 
     let dst = config.build();

@@ -1,11 +1,12 @@
 [package]
 name = "openvr_sys"
-version = "2.0.3"
+version = "2.0.4"
 authors = [
     "Colin Sherratt",
     "Erick Tryzelaar",
     "Rene Eichhorn",
-    "Benjamin Saunders"
+    "Benjamin Saunders",
+    "TiberiusCN"
 ]
 license = "MIT"
 description = "Raw unsafe system binding for openvr"
