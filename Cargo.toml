@@ -1,11 +1,14 @@
 [package]
 name = "openvr_sys"
 version = "2.0.3"
+edition = "2021"
 authors = [
     "Colin Sherratt",
     "Erick Tryzelaar",
     "Rene Eichhorn",
-    "Benjamin Saunders"
+    "Benjamin Saunders",
+    "Alexander Brook Perry",
+    "Arthur Brainville"
 ]
 license = "MIT"
 description = "Raw unsafe system binding for openvr"
@@ -25,8 +28,8 @@ build = "build.rs"
 maintenance = { status = "passively-maintained" }
 
 [build-dependencies]
-cmake = "0.1"
-bindgen = { version = "0.49", optional = true }
+cmake = "0.1.52"
+bindgen = "0.71.1"
 
 [lib]
 name = "openvr_sys"
@@ -34,4 +37,3 @@ path = "lib.rs"
 
 [features]
 default = []
-buildtime_bindgen = ["bindgen"]
