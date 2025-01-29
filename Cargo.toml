@@ -2,6 +2,7 @@
 name = "openvr_sys"
 version = "2.1.0"
 edition = "2021"
+rust-version = "1.82.0"
 authors = [
     "Colin Sherratt",
     "Erick Tryzelaar",
