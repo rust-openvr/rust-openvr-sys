@@ -12,8 +12,19 @@ fn main() {
     let target_pointer_width = env::var("CARGO_CFG_TARGET_POINTER_WIDTH").unwrap();
 
     // Configure cmake to place build output in OUT_DIR
+    let out_dir_str = out_dir.to_string_lossy().into_owned();
     let mut config = cmake::Config::new("openvr");
-    config.out_dir(&out_dir); 
+    let config = config
+        .define("CMAKE_LIBRARY_OUTPUT_DIRECTORY", &out_dir_str)
+        .define("CMAKE_ARCHIVE_OUTPUT_DIRECTORY", &out_dir_str)
+        .define("CMAKE_RUNTIME_OUTPUT_DIRECTORY", &out_dir_str)
+        .define("CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG", &out_dir_str)
+        .define("CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE", &out_dir_str)
+        .define("CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG", &out_dir_str)
+        .define("CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE", &out_dir_str)
+        .define("CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG", &out_dir_str)
+        .define("CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE", &out_dir_str)
+        .out_dir(&out_dir); 
 
     if target_os == "macos" {
         config.define("BUILD_UNIVERSAL", "OFF");
