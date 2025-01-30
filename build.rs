@@ -1,4 +1,3 @@
-#[cfg(feature = "buildtime_bindgen")]
 extern crate bindgen;
 extern crate cmake;
 
@@ -33,8 +32,6 @@ fn main() {
         println!("cargo:rustc-link-lib=shell32");
     }
 
-    // Generate bindings at build time.
-    #[cfg(feature = "buildtime_bindgen")]
     bindgen::builder()
         .header("wrapper.hpp")
         .constified_enum(".*")
