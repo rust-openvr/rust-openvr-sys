@@ -56,6 +56,7 @@ fn main() {
         .header("wrapper.hpp")
         .constified_enum(".*")
         .prepend_enum_name(false)
+        .derive_default(true)
         .generate()
         .expect("could not generate bindings")
         .write_to_file(out_dir.join("bindings.rs"))
