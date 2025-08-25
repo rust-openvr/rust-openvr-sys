@@ -1,6 +1,6 @@
 [package]
 name = "openvr_sys"
-version = "2.1.2"
+version = "2.1.3"
 edition = "2021"
 rust-version = "1.82.0"
 authors = [
@@ -9,13 +9,13 @@ authors = [
     "Rene Eichhorn",
     "Benjamin Saunders",
     "Alexander Brook Perry",
-    "Arthur Brainville"
+    "Arthur Brainville",
 ]
 license = "MIT"
 description = "Raw unsafe system binding for openvr"
 repository = "https://github.com/rust-openvr/rust-openvr-sys"
 keywords = ["vr", "vive", "steamvr"]
-categories = [ "hardware-support", "external-ffi-bindings" ]
+categories = ["hardware-support", "external-ffi-bindings"]
 
 exclude = [
     "openvr/samples/*",
