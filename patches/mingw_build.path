@@ -1,0 +1,13 @@
+diff --git a/headers/openvr_capi.h b/headers/openvr_capi.h
+index c4b6877..0d6fdbf 100644
+--- a/headers/openvr_capi.h
++++ b/headers/openvr_capi.h
+@@ -48,7 +48,7 @@
+ 
+ #include <stdint.h>
+ 
+-#if defined( __WIN32 )
++#if defined( __WIN32 ) && !defined(__MINGW32__)
+ typedef char bool;
+ #else
+ #include <stdbool.h>
